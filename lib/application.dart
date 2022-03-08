@@ -1,5 +1,6 @@
 import 'package:auth_nav/auth_nav.dart';
 import 'package:chat_app_flutter/data/data_source/local_service.dart';
+import 'package:chat_app_flutter/data/repository_imp/user_repository_imp.dart';
 import 'package:chat_app_flutter/ui/auth/auth_navigator.dart';
 import 'package:chat_app_flutter/ui/home/main_navigator.dart';
 import 'package:chat_app_flutter/ui/splash/app_splash_screen.dart';
@@ -22,6 +23,7 @@ class _ApplicationState extends State<Application> {
           splashScreen: AppSplashScreen((context) async {
             await Future.delayed(const Duration(seconds: 3));
             if (GetIt.instance.get<LocalService>().getKeyUser().isNotEmpty) {
+              await GetIt.I.get<UserRepositoryImp>().getUserModel(GetIt.I.get<LocalService>().getKeyUser());
               return AuthNavigationState.authorized();
             } else {
               return AuthNavigationState.unAuthorized();

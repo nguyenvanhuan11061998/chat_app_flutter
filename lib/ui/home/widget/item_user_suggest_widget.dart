@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chat_app_flutter/data/model/chat_room_item/chat_room_model.dart';
 import 'package:chat_app_flutter/data/model/user/user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ItemUserSuggestWidget extends StatefulWidget {
-  UserModel userModel;
+  ChatRoomModel chatRoomModel;
 
-  ItemUserSuggestWidget({Key? key, required this.userModel}) : super(key: key);
+  ItemUserSuggestWidget({Key? key, required this.chatRoomModel}) : super(key: key);
 
   @override
   _ItemUserSuggestWidgetState createState() => _ItemUserSuggestWidgetState();
@@ -23,7 +24,7 @@ class _ItemUserSuggestWidgetState extends State<ItemUserSuggestWidget> {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
-              imageUrl: widget.userModel.avatar ?? '',
+              imageUrl: widget.chatRoomModel.list_user!.first.avatar ?? '',
               height: 50,
               width: 50,
               fit: BoxFit.cover,
@@ -33,7 +34,7 @@ class _ItemUserSuggestWidgetState extends State<ItemUserSuggestWidget> {
           ),
           Expanded(
             child: Text(
-              '${widget.userModel.name}',
+              '${widget.chatRoomModel.room_name}',
               style: TextStyle(fontSize: 12, color: Colors.black),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

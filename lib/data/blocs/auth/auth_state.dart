@@ -8,7 +8,7 @@ part 'auth_state.freezed.dart';
 
 @freezed
 abstract class AuthState with _$AuthState {
-  const factory AuthState.authorized(UserModel userModelDto) =
+  const factory AuthState.authorized() =
   AuthStateAuthorized;
   const factory AuthState.unAuthorized() = AuthStateUnAuthorized;
 }

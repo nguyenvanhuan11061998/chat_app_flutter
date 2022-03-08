@@ -18,10 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$HomeStateTearOff {
   const _$HomeStateTearOff();
 
-  HomeStateData call(List<UserModel> listUser, List<UserModel> users) {
+  HomeStateData call(UserModel userModel) {
     return HomeStateData(
-      listUser,
-      users,
+      userModel,
     );
   }
 
@@ -43,24 +42,21 @@ const $HomeState = _$HomeStateTearOff();
 mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)
-        $default, {
+    TResult Function(UserModel userModel) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)?
-        $default, {
+    TResult Function(UserModel userModel)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)?
-        $default, {
+    TResult Function(UserModel userModel)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
@@ -110,7 +106,7 @@ abstract class $HomeStateDataCopyWith<$Res> {
   factory $HomeStateDataCopyWith(
           HomeStateData value, $Res Function(HomeStateData) then) =
       _$HomeStateDataCopyWithImpl<$Res>;
-  $Res call({List<UserModel> listUser, List<UserModel> users});
+  $Res call({UserModel userModel});
 }
 
 /// @nodoc
@@ -125,18 +121,13 @@ class _$HomeStateDataCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? listUser = freezed,
-    Object? users = freezed,
+    Object? userModel = freezed,
   }) {
     return _then(HomeStateData(
-      listUser == freezed
-          ? _value.listUser
-          : listUser // ignore: cast_nullable_to_non_nullable
-              as List<UserModel>,
-      users == freezed
-          ? _value.users
-          : users // ignore: cast_nullable_to_non_nullable
-              as List<UserModel>,
+      userModel == freezed
+          ? _value.userModel
+          : userModel // ignore: cast_nullable_to_non_nullable
+              as UserModel,
     ));
   }
 }
@@ -144,16 +135,14 @@ class _$HomeStateDataCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeStateData implements HomeStateData {
-  const _$HomeStateData(this.listUser, this.users);
+  const _$HomeStateData(this.userModel);
 
   @override
-  final List<UserModel> listUser;
-  @override
-  final List<UserModel> users;
+  final UserModel userModel;
 
   @override
   String toString() {
-    return 'HomeState(listUser: $listUser, users: $users)';
+    return 'HomeState(userModel: $userModel)';
   }
 
   @override
@@ -161,15 +150,12 @@ class _$HomeStateData implements HomeStateData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is HomeStateData &&
-            const DeepCollectionEquality().equals(other.listUser, listUser) &&
-            const DeepCollectionEquality().equals(other.users, users));
+            const DeepCollectionEquality().equals(other.userModel, userModel));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(listUser),
-      const DeepCollectionEquality().hash(users));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(userModel));
 
   @JsonKey(ignore: true)
   @override
@@ -179,36 +165,33 @@ class _$HomeStateData implements HomeStateData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)
-        $default, {
+    TResult Function(UserModel userModel) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
-    return $default(listUser, users);
+    return $default(userModel);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)?
-        $default, {
+    TResult Function(UserModel userModel)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
-    return $default?.call(listUser, users);
+    return $default?.call(userModel);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)?
-        $default, {
+    TResult Function(UserModel userModel)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(listUser, users);
+      return $default(userModel);
     }
     return orElse();
   }
@@ -249,11 +232,9 @@ class _$HomeStateData implements HomeStateData {
 }
 
 abstract class HomeStateData implements HomeState {
-  const factory HomeStateData(List<UserModel> listUser, List<UserModel> users) =
-      _$HomeStateData;
+  const factory HomeStateData(UserModel userModel) = _$HomeStateData;
 
-  List<UserModel> get listUser;
-  List<UserModel> get users;
+  UserModel get userModel;
   @JsonKey(ignore: true)
   $HomeStateDataCopyWith<HomeStateData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -299,8 +280,7 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)
-        $default, {
+    TResult Function(UserModel userModel) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
@@ -310,8 +290,7 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)?
-        $default, {
+    TResult Function(UserModel userModel)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
@@ -321,8 +300,7 @@ class _$HomeStateLoading implements HomeStateLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)?
-        $default, {
+    TResult Function(UserModel userModel)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
@@ -436,8 +414,7 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)
-        $default, {
+    TResult Function(UserModel userModel) $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
@@ -447,8 +424,7 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)?
-        $default, {
+    TResult Function(UserModel userModel)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
@@ -458,8 +434,7 @@ class _$HomeStateError implements HomeStateError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<UserModel> listUser, List<UserModel> users)?
-        $default, {
+    TResult Function(UserModel userModel)? $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),

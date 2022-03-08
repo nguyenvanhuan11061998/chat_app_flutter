@@ -18,10 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$AuthStateTearOff {
   const _$AuthStateTearOff();
 
-  AuthStateAuthorized authorized(UserModel userModelDto) {
-    return AuthStateAuthorized(
-      userModelDto,
-    );
+  AuthStateAuthorized authorized() {
+    return const AuthStateAuthorized();
   }
 
   AuthStateUnAuthorized unAuthorized() {
@@ -36,19 +34,19 @@ const $AuthState = _$AuthStateTearOff();
 mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(UserModel userModelDto) authorized,
+    required TResult Function() authorized,
     required TResult Function() unAuthorized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(UserModel userModelDto)? authorized,
+    TResult Function()? authorized,
     TResult Function()? unAuthorized,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(UserModel userModelDto)? authorized,
+    TResult Function()? authorized,
     TResult Function()? unAuthorized,
     required TResult orElse(),
   }) =>
@@ -94,7 +92,6 @@ abstract class $AuthStateAuthorizedCopyWith<$Res> {
   factory $AuthStateAuthorizedCopyWith(
           AuthStateAuthorized value, $Res Function(AuthStateAuthorized) then) =
       _$AuthStateAuthorizedCopyWithImpl<$Res>;
-  $Res call({UserModel userModelDto});
 }
 
 /// @nodoc
@@ -107,78 +104,54 @@ class _$AuthStateAuthorizedCopyWithImpl<$Res>
 
   @override
   AuthStateAuthorized get _value => super._value as AuthStateAuthorized;
-
-  @override
-  $Res call({
-    Object? userModelDto = freezed,
-  }) {
-    return _then(AuthStateAuthorized(
-      userModelDto == freezed
-          ? _value.userModelDto
-          : userModelDto // ignore: cast_nullable_to_non_nullable
-              as UserModel,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$AuthStateAuthorized implements AuthStateAuthorized {
-  const _$AuthStateAuthorized(this.userModelDto);
-
-  @override
-  final UserModel userModelDto;
+  const _$AuthStateAuthorized();
 
   @override
   String toString() {
-    return 'AuthState.authorized(userModelDto: $userModelDto)';
+    return 'AuthState.authorized()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is AuthStateAuthorized &&
-            const DeepCollectionEquality()
-                .equals(other.userModelDto, userModelDto));
+        (other.runtimeType == runtimeType && other is AuthStateAuthorized);
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(userModelDto));
-
-  @JsonKey(ignore: true)
-  @override
-  $AuthStateAuthorizedCopyWith<AuthStateAuthorized> get copyWith =>
-      _$AuthStateAuthorizedCopyWithImpl<AuthStateAuthorized>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(UserModel userModelDto) authorized,
+    required TResult Function() authorized,
     required TResult Function() unAuthorized,
   }) {
-    return authorized(userModelDto);
+    return authorized();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(UserModel userModelDto)? authorized,
+    TResult Function()? authorized,
     TResult Function()? unAuthorized,
   }) {
-    return authorized?.call(userModelDto);
+    return authorized?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(UserModel userModelDto)? authorized,
+    TResult Function()? authorized,
     TResult Function()? unAuthorized,
     required TResult orElse(),
   }) {
     if (authorized != null) {
-      return authorized(userModelDto);
+      return authorized();
     }
     return orElse();
   }
@@ -216,13 +189,7 @@ class _$AuthStateAuthorized implements AuthStateAuthorized {
 }
 
 abstract class AuthStateAuthorized implements AuthState {
-  const factory AuthStateAuthorized(UserModel userModelDto) =
-      _$AuthStateAuthorized;
-
-  UserModel get userModelDto;
-  @JsonKey(ignore: true)
-  $AuthStateAuthorizedCopyWith<AuthStateAuthorized> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory AuthStateAuthorized() = _$AuthStateAuthorized;
 }
 
 /// @nodoc
@@ -266,7 +233,7 @@ class _$AuthStateUnAuthorized implements AuthStateUnAuthorized {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(UserModel userModelDto) authorized,
+    required TResult Function() authorized,
     required TResult Function() unAuthorized,
   }) {
     return unAuthorized();
@@ -275,7 +242,7 @@ class _$AuthStateUnAuthorized implements AuthStateUnAuthorized {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function(UserModel userModelDto)? authorized,
+    TResult Function()? authorized,
     TResult Function()? unAuthorized,
   }) {
     return unAuthorized?.call();
@@ -284,7 +251,7 @@ class _$AuthStateUnAuthorized implements AuthStateUnAuthorized {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(UserModel userModelDto)? authorized,
+    TResult Function()? authorized,
     TResult Function()? unAuthorized,
     required TResult orElse(),
   }) {

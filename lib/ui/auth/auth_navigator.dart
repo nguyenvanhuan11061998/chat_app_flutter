@@ -1,6 +1,3 @@
-
-
-
 import 'package:chat_app_flutter/ui/auth/sign_in_page.dart';
 import 'package:chat_app_flutter/ui/auth/sign_up_page.dart';
 import 'package:flutter/cupertino.dart';
