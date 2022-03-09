@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/blocs/home/home_bloc.dart';
 import '../../data/blocs/home/home_state.dart';
+import '../chat_room/chat_room_page.dart';
 
 class HomePage extends StatefulWidget {
   static const path = 'HomePage';
@@ -70,8 +71,13 @@ class _HomePageState extends State<HomePage> {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, index) {
-                                  return ItemUserSuggestWidget(
-                                    chatRoomModel: userModel.list_chat![index],
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index].id_room);
+                                    },
+                                    child: ItemUserSuggestWidget(
+                                      chatRoomModel: userModel.list_chat![index],
+                                    ),
                                   );
                                 },
                                 separatorBuilder: (context, index) {
@@ -86,8 +92,13 @@ class _HomePageState extends State<HomePage> {
                               shrinkWrap: true,
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               itemBuilder: (context, index) {
-                                return ItemChatWidget(
-                                  chatRoomModel: userModel.list_chat![index],
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index].id_room);
+                                  },
+                                  child: ItemChatWidget(
+                                    chatRoomModel: userModel.list_chat![index],
+                                  ),
                                 );
                               },
                               separatorBuilder: (context, index) {
