@@ -42,7 +42,7 @@ class _ItemChatWidgetState extends State<ItemChatWidget> {
             children: [
               Text(
                 '${widget.chatRoomModel.room_name}',
-                style: const TextStyle(fontSize: 14, color: Colors.black, fontWeight: FontWeight.w600),
+                style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w600),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

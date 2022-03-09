@@ -52,45 +52,50 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: Colors.white,
                   elevation: 0,
                 ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (userModel.list_chat != null)
-                        SizedBox(
-                          height: 120,
-                          child: ListView.separated(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16, horizontal: 16),
+                body: RefreshIndicator(
+                  onRefresh: () {
+                    return _homeBloc.initData();
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (userModel.list_chat != null)
+                          SizedBox(
+                            height: 120,
+                            child: ListView.separated(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 16),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return ItemUserSuggestWidget(
+                                    chatRoomModel: userModel.list_chat![index],
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(width: 16);
+                                },
+                                itemCount: userModel.list_chat!.length),
+                          ),
+                        if (userModel.list_chat != null)
+                          ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
+                              padding: EdgeInsets.symmetric(horizontal: 16),
                               itemBuilder: (context, index) {
-                                return ItemUserSuggestWidget(
+                                return ItemChatWidget(
                                   chatRoomModel: userModel.list_chat![index],
                                 );
                               },
                               separatorBuilder: (context, index) {
-                                return const SizedBox(width: 16);
+                                return const SizedBox(height: 5);
                               },
                               itemCount: userModel.list_chat!.length),
-                        ),
-                      if (userModel.list_chat != null)
-                        ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            itemBuilder: (context, index) {
-                              return ItemChatWidget(
-                                chatRoomModel: userModel.list_chat![index],
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 10);
-                            },
-                            itemCount: userModel.list_chat!.length),
-                    ],
+                      ],
+                    ),
                   ),
                 ));
           }, loading: () {

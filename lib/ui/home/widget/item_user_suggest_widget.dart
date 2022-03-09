@@ -25,8 +25,8 @@ class _ItemUserSuggestWidgetState extends State<ItemUserSuggestWidget> {
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
               imageUrl: widget.chatRoomModel.list_user!.first.avatar ?? '',
-              height: 50,
-              width: 50,
+              height: 60,
+              width: 60,
               fit: BoxFit.cover,
               alignment: Alignment.center,
 
