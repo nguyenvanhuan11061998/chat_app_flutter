@@ -21,17 +21,14 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   late final GlobalKey<FormState> _formKey;
+  String _name = '';
   String _email = '';
   String _password = '';
-  late TextEditingController passwordController;
-  late TextEditingController passwordAgainController;
 
   @override
   void initState() {
     super.initState();
     _formKey = GlobalKey();
-    passwordController = TextEditingController();
-    passwordAgainController = TextEditingController();
   }
   @override
   Widget build(BuildContext context) {
@@ -49,6 +46,18 @@ class _SignUpPageState extends State<SignUpPage> {
                 const Text("Đăng ký", style: TextStyle(fontSize: 20),),
                 const SizedBox(height: 20),
                 AppTextFormField(
+                  hint: 'Nhập tên',
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'Tên của bạn là gì';
+                    } else {
+                      _name = value.trim();
+                      return null;
+                    }
+                  },
+                ),
+                const SizedBox(height: 20),
+                AppTextFormField(
                   hint: 'Nhập email',
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
@@ -61,7 +70,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
                 AppTextFormField(
-                  textEditingController: passwordController,
                   hint: 'Nhập password',
                   isPassword: true,
                   validator: (value){
@@ -74,13 +82,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
                 AppTextFormField(
-                  textEditingController: passwordAgainController,
                   hint: 'Nhập lại password',
                   isPassword: true,
                   validator: (value){
                     if (value == null || value.trim().isEmpty) {
                       return 'Yêu cầu nhập lại mật khẩu';
-                    } else if (passwordAgainController.text.trim() != passwordController.text.trim()){
+                    } else if (value.trim() != value.trim()){
                       return 'Mật khẩu nhập lại không chính xác';
                     } else {
                       _password = value.trim();
@@ -93,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ElevatedButton(onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    context.read<AuthBloc>().createAccount(_email, _password).then((value) {
+                    context.read<AuthBloc>().createAccount(_name, _email, _password).then((value) {
 
                     }).catchError((err) {
                       showDialog(context: context, builder: (context) {

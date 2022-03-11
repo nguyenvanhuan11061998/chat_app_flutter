@@ -7,6 +7,6 @@ abstract class AuthRepository {
 
   Future createAccount(String email, String password);
 
-  Future createUserModel(String keyUserId, String email);
+  Future createUserModel(String keyUserId, String name, String email);
 
 }

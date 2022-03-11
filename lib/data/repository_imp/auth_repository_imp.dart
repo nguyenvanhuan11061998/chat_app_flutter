@@ -29,8 +29,8 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Future createUserModel(String keyUserId, String email) {
-    UserModel userModel = UserModelDto.copyWith(keyUserId, email);
+  Future createUserModel(String keyUserId, String name, String email) {
+    UserModel userModel = UserModelDto.copyWith(keyUserId, name, email);
     return users.add((userModel as UserModelDto).toJson());
   }
 

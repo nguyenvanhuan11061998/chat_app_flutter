@@ -4,10 +4,12 @@ import 'package:chat_app_flutter/ui/home/widget/item_user_suggest_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../data/blocs/home/home_bloc.dart';
 import '../../data/blocs/home/home_state.dart';
 import '../chat_room/chat_room_page.dart';
+import '../setting/setting_page.dart';
 import '../widget/search_form_field.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _homeBloc = HomeBloc();
+    _homeBloc = context.read<HomeBloc>();
     _searchController = TextEditingController();
   }
 
@@ -42,14 +44,19 @@ class _HomePageState extends State<HomePage> {
                 appBar: AppBar(
                   leading: Padding(
                     padding: const EdgeInsets.all(5),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: CachedNetworkImage(
-                        imageUrl: userModel.avatar??'',
-                        height: 30,
-                        width: 30,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, SettingPage.path);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: CachedNetworkImage(
+                          imageUrl: userModel.avatar??'',
+                          height: 30,
+                          width: 30,
+                          fit: BoxFit.cover,
+                          alignment: Alignment.center,
+                        ),
                       ),
                     ),
                   ),

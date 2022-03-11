@@ -28,7 +28,7 @@ class UserModelDto implements UserModel {
 
   UserModelDto(this.keyUser, this.email, this.name, this.phone, this.avatar, this.list_chat);
 
-  UserModelDto.copyWith(this.keyUser, this.email);
+  UserModelDto.copyWith(this.keyUser, this.name, this.email);
 
   UserModelDto.copyWith2(this.keyUser,  this.email, this.name, this.avatar);
 

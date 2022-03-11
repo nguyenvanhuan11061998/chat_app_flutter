@@ -2,6 +2,7 @@
 
 
 import 'package:auth_nav/bloc/auth_navigation_bloc.dart';
+import 'package:chat_app_flutter/data/blocs/home/home_bloc.dart';
 import 'package:chat_app_flutter/data/data_source/local_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:oauth2_dio/oauth2_dio.dart';

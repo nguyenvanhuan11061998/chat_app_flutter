@@ -37,10 +37,10 @@ class AuthBloc extends Cubit<AuthState> {
     });
   }
 
-  Future createAccount(String email, String password) async {
+  Future createAccount(String name, String email, String password) async {
     await _authRepository.createAccount(email, password).then((value) async {
       UserCredential userCredential = value as UserCredential;
-      await _authRepository.createUserModel(userCredential.user!.uid, userCredential.user!.email ?? '');
+      await _authRepository.createUserModel(userCredential.user!.uid, name, userCredential.user!.email ?? '');
       goToMainNav(userCredential);
     }).catchError((err) {
       throw(err);
@@ -52,6 +52,11 @@ class AuthBloc extends Cubit<AuthState> {
       GetIt.instance.get<Oauth2Manager<String>>().add(userCredential.user!.uid);
       emit(AuthState.authorized());
     }
+  }
+
+  Future logout() async {
+    GetIt.instance.get<Oauth2Manager<String>>().add(null);
+    emit(const AuthState.unAuthorized());
   }
 
 }
