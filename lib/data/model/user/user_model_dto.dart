@@ -2,8 +2,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:chat_app_flutter/data/model/user/user_model.dart';
 
-import '../chat_room_item/chat_room_model_dto.dart';
-
 part 'user_model_dto.g.dart';
 
 @JsonSerializable()
@@ -24,7 +22,7 @@ class UserModelDto implements UserModel {
   String? avatar;
 
   @override
-  List<ChatRoomModelDto>? list_chat;
+  List<String>? list_chat;
 
   UserModelDto(this.keyUser, this.email, this.name, this.phone, this.avatar, this.list_chat);
 

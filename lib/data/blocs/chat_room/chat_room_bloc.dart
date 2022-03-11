@@ -31,13 +31,14 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
     });
   }
 
-  Future sendMessage(String message) async {
+  Future<bool?> sendMessage(String message) async {
     try {
       MessageModelDto messageModel = MessageModelDto(
           idRoom, message, keyUser, DateTime.now(), 'text');
-      final result = await _repositoryImp.sendMessage(idRoom, messageModel);
+      await _repositoryImp.sendMessage(idRoom, messageModel);
+      return true;
     } catch (e) {
-
+      rethrow;
     }
   }
 

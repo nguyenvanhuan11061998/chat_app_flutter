@@ -1,7 +1,7 @@
 
 
 
-import 'package:chat_app_flutter/data/model/chat_room_item/chat_room_model.dart';
+import 'package:chat_app_flutter/data/model/message/message_model.dart';
 import 'package:chat_app_flutter/data/model/message/message_model_dto.dart';
 import 'package:chat_app_flutter/data/model/room_chat_config/room_config_model.dart';
 import 'package:chat_app_flutter/data/repository/room_chat_repository.dart';
@@ -9,7 +9,6 @@ import 'package:firebase_database/firebase_database.dart' as FirebaseDatabaseQue
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../model/chat_room_item/chat_room_model_dto.dart';
 import '../model/room_chat_config/room_config_dto.dart';
 import '../model/user/user_model.dart';
 import '../model/user/user_model_dto.dart';
@@ -46,9 +45,9 @@ class RoomChatRepositoryImp implements RoomChatRepository{
   }
 
   @override
-  Future<String> searchRoom(String keySearch) async {
+  Future<String> searchRoom(String keyUser, String keySearch) async {
     try {
-      final result = await roomSearch.where('key_room', isEqualTo: keySearch).get();
+      final result = await roomSearch.where('key_room', isEqualTo: keySearch).where('key_member', isEqualTo: keyUser).get();
       if (result.docs.isNotEmpty) {
         return (result.docs.first.data() as Map<String, dynamic>)['id_room'];
       } else {
@@ -83,37 +82,60 @@ class RoomChatRepositoryImp implements RoomChatRepository{
 
       final addRoomResult = await roomConfig.add(dataJson);
       await roomSearch.add({
+        'key_member': myUser.keyUser,
         'id_room': addRoomResult.id,
         'key_room': user.email
       });
-      updateChatDatabaseUser(userModel, addRoomResult.id, user);
+      await roomSearch.add({
+        'key_member': user.keyUser,
+        'id_room': addRoomResult.id,
+        'key_room': user.email
+      });
+      addRoomChatDatabaseUser(userModel, addRoomResult.id, user);
       return addRoomResult.id;
     } catch (err) {
       rethrow;
     }
   }
 
-  void updateChatDatabaseUser(UserModel userModel, String idRoom, UserModel user) {
-    ChatRoomModel chatRoomModel = ChatRoomModelDto(idRoom, null, null, [userModel.keyUser ?? '', user.keyUser ?? ''], user.name, user.avatar);
+  void addRoomChatDatabaseUser(UserModel userModel, String idRoom, UserModel user) {
     users.where('keyUser', isEqualTo: userModel.keyUser).get().then((value) {
       if ((value.docs.first.data() as Map<String, dynamic>)['list_chat'] == null) {
-        value.docs[0].reference.set({'list_chat': [(chatRoomModel as ChatRoomModelDto).toJson()]}, SetOptions(merge: true));
+        value.docs[0].reference.set({'list_chat': [idRoom]}, SetOptions(merge: true));
       } else {
         value.docs[0].reference.update({
           'list_chat': FieldValue.arrayUnion(
-              [(chatRoomModel as ChatRoomModelDto).toJson()])
+              [idRoom])
         });
       }
     });
     users.where('keyUser', isEqualTo: user.keyUser).get().then((value) {
       if ((value.docs.first.data() as Map<String, dynamic>)['list_chat'] == null) {
-        value.docs[0].reference.set({'list_chat': [(chatRoomModel as ChatRoomModelDto).toJson()]}, SetOptions(merge: true));
+        value.docs[0].reference.set({'list_chat': [idRoom]}, SetOptions(merge: true));
       } else {
         value.docs[0].reference.update({
           'list_chat': FieldValue.arrayUnion(
-              [(chatRoomModel as ChatRoomModelDto).toJson()])
+              [idRoom])
         });
       }
     });
   }
+
+  @override
+  Future<MessageModel> getLatestMessage(String id_room) async {
+    try {
+      final data = await _messagesRef.child('message_room_$id_room').orderByKey().limitToLast(1).once();
+      MessageModelDto message = MessageModelDto.fromJson(Map<String, dynamic>.from((data.snapshot.value as Map)!.values.toList()[0] as Map));
+      return message;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // @override
+  // Future updateLateMessage(String keyUser, String message) async {
+  //   return null
+  // }
+
+
 }

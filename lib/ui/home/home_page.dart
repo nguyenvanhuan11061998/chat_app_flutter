@@ -133,14 +133,14 @@ class _HomePageState extends State<HomePage> {
                                     itemBuilder: (context, index) {
                                       return InkWell(
                                         onTap: () {
-                                          Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index].id_room).then((value) {
+                                          Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index]).then((value) {
                                             setState(() {
                                               _homeBloc.initData();
                                             });
                                           });
                                         },
                                         child: ItemUserSuggestWidget(
-                                          chatRoomModel: userModel.list_chat![index],
+                                          id_room: userModel.list_chat![index],
                                         ),
                                       );
                                     },
@@ -158,14 +158,14 @@ class _HomePageState extends State<HomePage> {
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () {
-                                        Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index].id_room).then((value) {
+                                        Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index]).then((value) {
                                           setState(() {
                                             _homeBloc.initData();
                                           });
                                         });
                                       },
                                       child: ItemChatWidget(
-                                        chatRoomModel: userModel.list_chat![index],
+                                        idRoom: userModel.list_chat![index],
                                       ),
                                     );
                                   },

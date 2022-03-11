@@ -12,9 +12,7 @@ UserModelDto _$UserModelDtoFromJson(Map<String, dynamic> json) => UserModelDto(
       json['name'] as String?,
       json['phone'] as String?,
       json['avatar'] as String?,
-      (json['list_chat'] as List<dynamic>?)
-          ?.map((e) => ChatRoomModelDto.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      (json['list_chat'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$UserModelDtoToJson(UserModelDto instance) =>

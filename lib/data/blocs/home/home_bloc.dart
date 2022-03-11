@@ -38,7 +38,7 @@ class HomeBloc extends Cubit<HomeState> {
   }
 
   Future<String> search(String keySearch) {
-      return _chatRepository.searchRoom(keySearch);
+      return _chatRepository.searchRoom(userModel.keyUser??'', keySearch);
   }
 
   Future<dynamic> findUser(String keySearch) {

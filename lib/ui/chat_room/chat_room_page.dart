@@ -125,11 +125,13 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                       .sendMessage(
                                           messageController.text.trim())
                                       .then((value) {
-                                    setState(() {
-                                      messageController.clear();
-                                      FocusScope.of(context).unfocus();
-                                      scrollListData();
-                                    });
+                                        if (value != null && value) {
+                                          setState(() {
+                                            messageController.clear();
+                                            FocusScope.of(context).unfocus();
+                                            scrollListData();
+                                          });
+                                        }
                                   });
                                 }
                               },
