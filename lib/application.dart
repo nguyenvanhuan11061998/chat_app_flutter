@@ -23,7 +23,7 @@ class _ApplicationState extends State<Application> {
           splashScreen: AppSplashScreen((context) async {
             await Future.delayed(const Duration(seconds: 3));
             if (GetIt.instance.get<LocalService>().getKeyUser().isNotEmpty) {
-              await GetIt.I.get<UserRepositoryImp>().getUserModel(GetIt.I.get<LocalService>().getKeyUser());
+              // await GetIt.I.get<UserRepositoryImp>().getUserModel(GetIt.I.get<LocalService>().getKeyUser());
               return AuthNavigationState.authorized();
             } else {
               return AuthNavigationState.unAuthorized();

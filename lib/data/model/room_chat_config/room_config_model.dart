@@ -6,7 +6,7 @@ import 'package:chat_app_flutter/data/model/user/user_model.dart';
 import '../user/user_model_dto.dart';
 
 abstract class RoomConfigModel {
-  String? get id_room;
   String? get room_name;
-  List<UserModel>? get list_user;
+  String? get room_image;
+  List<String>? get list_user;
 }

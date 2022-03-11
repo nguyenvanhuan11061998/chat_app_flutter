@@ -15,19 +15,20 @@ part 'room_config_dto.g.dart';
 class RoomConfigDto implements RoomConfigModel {
 
   @override
-  String? id_room;
-
-  @override
-  List<UserModelDto>? list_user;
+  List<String>? list_user;
 
   @override
   String? room_name;
 
-  RoomConfigDto(this.id_room, this.list_user, this.room_name);
+  @override
+  String? room_image;
+
+  RoomConfigDto(this.list_user, this.room_name, this.room_image);
 
   factory RoomConfigDto.fromJson(Map<String, dynamic> json) {
     return _$RoomConfigDtoFromJson(json);
   }
 
   Map<String, dynamic> toJson() => _$RoomConfigDtoToJson(this);
+
 }

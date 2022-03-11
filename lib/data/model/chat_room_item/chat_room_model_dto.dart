@@ -25,12 +25,15 @@ class ChatRoomModelDto implements ChatRoomModel {
   String? room_name;
 
   @override
-  List<UserModelDto>? list_user;
+  List<String>? list_user;
 
   ChatRoomModelDto(
-      this.id_room, this.late_message, this.late_time, this.list_user, this.room_name);
+      this.id_room, this.late_message, this.late_time, this.list_user, this.room_name, this.room_image);
 
   factory ChatRoomModelDto.fromJson(Map<String, dynamic> json) => _$ChatRoomModelDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChatRoomModelDtoToJson(this);
+
+  @override
+  String? room_image;
 }

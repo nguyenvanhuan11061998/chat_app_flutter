@@ -27,7 +27,7 @@ class _ItemChatWidgetState extends State<ItemChatWidget> {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
-              imageUrl: widget.chatRoomModel.list_user!.first.avatar ?? '',
+              imageUrl: widget.chatRoomModel.room_image ?? '',
               height: 55,
               width: 55,
               fit: BoxFit.cover,

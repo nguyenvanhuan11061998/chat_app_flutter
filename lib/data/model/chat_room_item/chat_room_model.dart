@@ -8,7 +8,8 @@ import '../user/user_model_dto.dart';
 abstract class ChatRoomModel {
   String? id_room;
   String? room_name;
-  List<UserModelDto>? list_user;
+  List<String>? list_user;
   String? late_message;
   String? late_time;
+  String? room_image;
 }

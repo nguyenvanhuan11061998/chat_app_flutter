@@ -9,5 +9,5 @@ abstract class UserRepository {
 
   Future<List<UserModel>> getUsers(String userId);
 
-  Future getUserModel(String keyUserId);
+  Future<UserModel> getUserModel(String keyUserId, bool currentAccount);
 }

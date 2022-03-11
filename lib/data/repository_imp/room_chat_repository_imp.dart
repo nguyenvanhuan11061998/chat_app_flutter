@@ -77,8 +77,7 @@ class RoomChatRepositoryImp implements RoomChatRepository{
       UserModel userModel = UserModelDto(
           myUser.keyUser, myUser.email, myUser.name, '', myUser.avatar, null);
 
-      RoomConfigDto roomConfigModel = RoomConfigDto(
-          '', [userModel as UserModelDto, user as UserModelDto], user.name);
+      RoomConfigDto roomConfigModel = RoomConfigDto([userModel.keyUser ?? '', user.keyUser ?? ''], user.name, user.avatar);
 
       Map <String, dynamic> dataJson = roomConfigModel.toJson();
 
@@ -95,7 +94,7 @@ class RoomChatRepositoryImp implements RoomChatRepository{
   }
 
   void updateChatDatabaseUser(UserModel userModel, String idRoom, UserModel user) {
-    ChatRoomModel chatRoomModel = ChatRoomModelDto(idRoom, null, null, [userModel as UserModelDto, user as UserModelDto], user.name);
+    ChatRoomModel chatRoomModel = ChatRoomModelDto(idRoom, null, null, [userModel.keyUser ?? '', user.keyUser ?? ''], user.name, user.avatar);
     users.where('keyUser', isEqualTo: userModel.keyUser).get().then((value) {
       if ((value.docs.first.data() as Map<String, dynamic>)['list_chat'] == null) {
         value.docs[0].reference.set({'list_chat': [(chatRoomModel as ChatRoomModelDto).toJson()]}, SetOptions(merge: true));

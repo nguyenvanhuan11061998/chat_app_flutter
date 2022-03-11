@@ -29,11 +29,8 @@ class HomeBloc extends Cubit<HomeState> {
 
   Future<void> initData() async {
     String keyUser = GetIt.instance.get<LocalService>().getKeyUser();
-    _userRepository.getUserModel(keyUser).then((value) {
-      final data = value as QuerySnapshot;
-      UserModel userModel = UserModelDto.fromJson(data.docs.first.data() as Map<String, dynamic>);
-      GetIt.I.get<LocalService>().saveUserModel(jsonEncode(data.docs.first.data() as Map<String, dynamic>));
-      this.userModel = userModel;
+    _userRepository.getUserModel(keyUser, true).then((value) {
+      userModel = value;
       emit(HomeState(userModel));
     }).onError((error, stackTrace) {
       emit(HomeState.error(error));

@@ -40,10 +40,12 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   }
 
   void scrollListData() {
-    Timer(const Duration(microseconds: 1000), () {
-      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-          duration: const Duration(microseconds: 250), curve: Curves.ease);
-    });
+    if (_scrollController.hasClients) {
+      Timer(const Duration(microseconds: 1000), () {
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+            duration: const Duration(microseconds: 250), curve: Curves.ease);
+      });
+    }
   }
 
   @override
@@ -71,7 +73,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(30),
                       child: CachedNetworkImage(
-                        imageUrl: roomConfigModel.list_user!.first.avatar ?? '',
+                        imageUrl: roomConfigModel.room_image ?? '',
                         height: 30,
                         width: 30,
                         fit: BoxFit.cover,

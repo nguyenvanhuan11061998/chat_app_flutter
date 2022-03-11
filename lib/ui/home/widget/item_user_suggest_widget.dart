@@ -24,7 +24,7 @@ class _ItemUserSuggestWidgetState extends State<ItemUserSuggestWidget> {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: CachedNetworkImage(
-              imageUrl: widget.chatRoomModel.list_user!.first.avatar ?? '',
+              imageUrl: widget.chatRoomModel.room_image ?? '',
               height: 60,
               width: 60,
               fit: BoxFit.cover,
