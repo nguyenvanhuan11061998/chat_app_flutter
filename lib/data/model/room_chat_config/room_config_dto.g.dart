@@ -18,6 +18,6 @@ RoomConfigDto _$RoomConfigDtoFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$RoomConfigDtoToJson(RoomConfigDto instance) =>
     <String, dynamic>{
       'id_room': instance.id_room,
-      'list_user': instance.list_user,
+      'list_user': instance.list_user?.map((e) => e.toJson()).toList(),
       'room_name': instance.room_name,
     };

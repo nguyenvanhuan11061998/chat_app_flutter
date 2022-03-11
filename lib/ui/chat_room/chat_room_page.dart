@@ -27,7 +27,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   late ChatRoomBloc _roomBloc;
   late TextEditingController messageController;
   late String keyUserId;
-  ScrollController _scrollController = new ScrollController();
 
   @override
   void initState() {
@@ -35,7 +34,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
     _roomBloc = ChatRoomBloc(widget.id_room);
     messageController = TextEditingController();
     keyUserId = GetIt.I.get<LocalService>().getKeyUser();
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
   }
 
   @override
@@ -79,7 +77,6 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   children: [
                     Expanded(
                       child: FirebaseAnimatedList(
-                        controller: _scrollController,
                           query: _roomBloc.getMessages(),
                           reverse: false,
                           itemBuilder: (context, snapshot, animation, index) {

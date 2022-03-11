@@ -30,6 +30,8 @@ class UserModelDto implements UserModel {
 
   UserModelDto.copyWith(this.keyUser, this.email);
 
+  UserModelDto.copyWith2(this.keyUser,  this.email, this.name, this.avatar);
+
   factory UserModelDto.fromJson(Map<String, dynamic> json) => _$UserModelDtoFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelDtoToJson(this);

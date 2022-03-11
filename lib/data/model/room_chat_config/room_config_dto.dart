@@ -2,12 +2,16 @@
 
 
 
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:chat_app_flutter/data/model/room_chat_config/room_config_model.dart';
 import 'package:chat_app_flutter/data/model/user/user_model_dto.dart';
 part 'room_config_dto.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  explicitToJson: true,
+)
 class RoomConfigDto implements RoomConfigModel {
 
   @override

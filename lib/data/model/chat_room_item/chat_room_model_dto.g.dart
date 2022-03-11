@@ -23,5 +23,5 @@ Map<String, dynamic> _$ChatRoomModelDtoToJson(ChatRoomModelDto instance) =>
       'late_message': instance.late_message,
       'late_time': instance.late_time,
       'room_name': instance.room_name,
-      'list_user': instance.list_user,
+      'list_user': instance.list_user?.map((e) => e.toJson()).toList(),
     };

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/blocs/home/home_bloc.dart';
 import '../../data/blocs/home/home_state.dart';
 import '../chat_room/chat_room_page.dart';
+import '../widget/search_form_field.dart';
 
 class HomePage extends StatefulWidget {
   static const path = 'HomePage';
@@ -20,11 +21,13 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late HomeBloc _homeBloc;
+  late final TextEditingController _searchController;
 
   @override
   void initState() {
     super.initState();
     _homeBloc = HomeBloc();
+    _searchController = TextEditingController();
   }
 
   @override
@@ -57,55 +60,112 @@ class _HomePageState extends State<HomePage> {
                   onRefresh: () {
                     return _homeBloc.initData();
                   },
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (userModel.list_chat != null)
-                          SizedBox(
-                            height: 120,
-                            child: ListView.separated(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 16, horizontal: 16),
+                  child: Material(
+                    color: Colors.white,
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                            child: SearchFormField(
+                              hint: 'Tìm kiếm',
+                              hintColor: const Color(0xff7A7A9D),
+                              textEditingController: _searchController,
+                              onEditingComplete: () {
+                                if (_searchController.text.trim().isNotEmpty) {
+                                  _homeBloc.search(_searchController.text.trim()).then((value) {
+                                    if (value.isNotEmpty) {
+                                      setState(() {
+                                        _searchController.text = '';
+                                      });
+                                      Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: value).then((value) {
+                                        setState(() {
+                                          _homeBloc.initData();
+                                        });
+                                      });
+                                    } else {
+                                      _homeBloc.findUser(_searchController.text.trim()).then((value) {
+                                        if (value != null) {
+                                          _homeBloc.createNewRoomChat(userModel, value).then((value){
+                                            Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: value).then((value) {
+                                              setState(() {
+                                                _homeBloc.initData();
+                                              });
+                                            });
+                                          }).onError((error, stackTrace) {
+                                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                              content: Text("Đã có lỗi xảy ra."),
+                                            ));
+                                          });
+                                        } else {
+                                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                            content: Text("Không tìm thấy người dùng."),
+                                          ));
+                                        }
+                                      });
+                                    }
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 16),
+                          if (userModel.list_chat != null)
+                            SizedBox(
+                              height: 120,
+                              child: ListView.separated(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 16, horizontal: 16),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index].id_room).then((value) {
+                                          setState(() {
+                                            _homeBloc.initData();
+                                          });
+                                        });
+                                      },
+                                      child: ItemUserSuggestWidget(
+                                        chatRoomModel: userModel.list_chat![index],
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(width: 16);
+                                  },
+                                  itemCount: userModel.list_chat!.length),
+                            ),
+                          if (userModel.list_chat != null)
+                            ListView.separated(
+                                physics: const NeverScrollableScrollPhysics(),
+                                scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
+                                padding: EdgeInsets.symmetric(horizontal: 16),
                                 itemBuilder: (context, index) {
                                   return InkWell(
                                     onTap: () {
-                                      Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index].id_room);
+                                      Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index].id_room).then((value) {
+                                        setState(() {
+                                          _homeBloc.initData();
+                                        });
+                                      });
                                     },
-                                    child: ItemUserSuggestWidget(
+                                    child: ItemChatWidget(
                                       chatRoomModel: userModel.list_chat![index],
                                     ),
                                   );
                                 },
                                 separatorBuilder: (context, index) {
-                                  return const SizedBox(width: 16);
+                                  return const SizedBox(height: 5);
                                 },
                                 itemCount: userModel.list_chat!.length),
-                          ),
-                        if (userModel.list_chat != null)
-                          ListView.separated(
-                              physics: const NeverScrollableScrollPhysics(),
-                              scrollDirection: Axis.vertical,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(ChatRoomPage.path, arguments: userModel.list_chat![index].id_room);
-                                  },
-                                  child: ItemChatWidget(
-                                    chatRoomModel: userModel.list_chat![index],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(height: 5);
-                              },
-                              itemCount: userModel.list_chat!.length),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ));

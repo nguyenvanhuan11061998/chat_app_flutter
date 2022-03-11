@@ -7,7 +7,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'chat_room_model_dto.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(
+  explicitToJson: true
+)
 class ChatRoomModelDto implements ChatRoomModel {
 
   @override
