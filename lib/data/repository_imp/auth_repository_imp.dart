@@ -34,4 +34,14 @@ class AuthRepositoryImp implements AuthRepository {
     return users.add((userModel as UserModelDto).toJson());
   }
 
+  @override
+  Future<bool> changePassword(String newPassword) async {
+    try {
+      await _auth.currentUser!.updatePassword(newPassword);
+      return true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

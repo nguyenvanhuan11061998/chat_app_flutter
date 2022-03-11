@@ -70,11 +70,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
                 AppTextFormField(
-                  hint: 'Nhập password',
+                  hint: 'Nhập mật khẩu',
                   isPassword: true,
                   validator: (value){
                     if (value == null || value.trim().isEmpty) {
                       return 'Yêu cầu nhập mật khẩu';
+                    } else if (value.trim().length < 8) {
+                      return 'Mật khẩu phải có độ dài ít nhất 8 ký tự';
                     } else {
                       return null;
                     }
@@ -82,7 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 const SizedBox(height: 20),
                 AppTextFormField(
-                  hint: 'Nhập lại password',
+                  hint: 'Nhập lại mật khẩu',
                   isPassword: true,
                   validator: (value){
                     if (value == null || value.trim().isEmpty) {

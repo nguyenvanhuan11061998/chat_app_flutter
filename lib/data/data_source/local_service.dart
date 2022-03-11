@@ -12,6 +12,7 @@ import '../model/user/user_model_dto.dart';
 class LocalService {
 
   final String keyUser = "key_user_id";
+  final String keyPassword = 'key_password';
   final String keyUserModel = "key_user_model";
 
   final SharedPreferences _sharedPreferences = GetIt.instance.get();
@@ -35,6 +36,14 @@ class LocalService {
     final dataUser = jsonDecode(_sharedPreferences.getString(keyUserModel)!);
     UserModel userModel = UserModelDto.fromJson(dataUser);
     return userModel;
+  }
+
+  Future savePassword(String password) {
+    return _sharedPreferences.setString(keyPassword, password);
+  }
+
+  String getPassword() {
+    return _sharedPreferences.getString(keyPassword) ?? '';
   }
 
 }

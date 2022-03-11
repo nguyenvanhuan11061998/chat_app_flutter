@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../utils/navigator_support.dart';
+import '../auth/change_password_page.dart';
 import '../chat_room/chat_room_page.dart';
 import '../setting/setting_page.dart';
 
@@ -42,6 +43,8 @@ class _MainNavigatorState extends State<MainNavigator> {
               return MaterialPageRoute(builder: (context) => ChatRoomPage(id_room: setting.arguments as String));
             case SettingPage.path:
               return MaterialPageRoute(builder: (context) => const SettingPage());
+            case ChangePasswordPage.path:
+              return MaterialPageRoute(builder: (context) => const ChangePasswordPage());
           }
         },
       ),

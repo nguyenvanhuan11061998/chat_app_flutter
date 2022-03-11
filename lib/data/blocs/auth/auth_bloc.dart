@@ -4,6 +4,7 @@
 
 import 'package:auth_nav/bloc/auth_navigation_bloc.dart';
 import 'package:auth_nav/bloc/auth_navigation_state.dart';
+import 'package:chat_app_flutter/data/data_source/local_service.dart';
 import 'package:chat_app_flutter/data/repository_imp/auth_repository_imp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +32,7 @@ class AuthBloc extends Cubit<AuthState> {
   Future login(String email, String password) async {
     await _authRepository.login(email, password).then((value) {
       UserCredential userCredential = value as UserCredential;
+      GetIt.I.get<LocalService>().savePassword(password);
       goToMainNav(userCredential);
     }).catchError((err) {
       throw(err);
@@ -41,6 +43,7 @@ class AuthBloc extends Cubit<AuthState> {
     await _authRepository.createAccount(email, password).then((value) async {
       UserCredential userCredential = value as UserCredential;
       await _authRepository.createUserModel(userCredential.user!.uid, name, userCredential.user!.email ?? '');
+      GetIt.I.get<LocalService>().savePassword(password);
       goToMainNav(userCredential);
     }).catchError((err) {
       throw(err);
@@ -50,13 +53,22 @@ class AuthBloc extends Cubit<AuthState> {
   Future goToMainNav(UserCredential userCredential) async {
     if (userCredential.user != null) {
       GetIt.instance.get<Oauth2Manager<String>>().add(userCredential.user!.uid);
-      emit(AuthState.authorized());
+      emit(const AuthState.authorized());
     }
   }
 
   Future logout() async {
     GetIt.instance.get<Oauth2Manager<String>>().add(null);
     emit(const AuthState.unAuthorized());
+  }
+
+  Future changePassword(String newPassword) async {
+    return _authRepository.changePassword(newPassword).then((value) {
+      if (value != null && value == true) {
+        GetIt.I.get<LocalService>().savePassword(newPassword);
+        return value;
+      }
+    });
   }
 
 }

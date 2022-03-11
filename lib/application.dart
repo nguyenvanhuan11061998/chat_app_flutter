@@ -1,6 +1,7 @@
 import 'package:auth_nav/auth_nav.dart';
 import 'package:chat_app_flutter/data/data_source/local_service.dart';
 import 'package:chat_app_flutter/data/repository_imp/user_repository_imp.dart';
+import 'package:chat_app_flutter/theme_light.dart';
 import 'package:chat_app_flutter/ui/auth/auth_navigator.dart';
 import 'package:chat_app_flutter/ui/home/main_navigator.dart';
 import 'package:chat_app_flutter/ui/splash/app_splash_screen.dart';
@@ -19,6 +20,7 @@ class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: themeLight(context),
       home: AuthNavigation(
           splashScreen: AppSplashScreen((context) async {
             await Future.delayed(const Duration(seconds: 3));

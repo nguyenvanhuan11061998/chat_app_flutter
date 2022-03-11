@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_flutter/data/blocs/auth/auth_bloc.dart';
 import 'package:chat_app_flutter/data/blocs/home/home_bloc.dart';
 import 'package:chat_app_flutter/data/model/user/user_model.dart';
+import 'package:chat_app_flutter/ui/auth/change_password_page.dart';
 import 'package:chat_app_flutter/utils/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:get_it/get_it.dart';
 
 import '../../data/blocs/setting/setting_bloc.dart';
 import '../../data/blocs/setting/setting_state.dart';
+import '../../gen/assets.gen.dart';
 
 class SettingPage extends StatefulWidget {
   static const path = 'SettingPage';
@@ -35,7 +37,7 @@ class _SettingPageState extends State<SettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: ColorConstants.primaryColor,
         automaticallyImplyLeading: false,
         elevation: 0,
         actions: [
@@ -45,11 +47,11 @@ class _SettingPageState extends State<SettingPage> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   'Xong',
-                  style: TextStyle(color: ColorConstants.primaryColor),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
             ),
@@ -64,7 +66,7 @@ class _SettingPageState extends State<SettingPage> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     Align(
                       alignment: Alignment.topCenter,
                       child: ClipRRect(
@@ -89,7 +91,76 @@ class _SettingPageState extends State<SettingPage> {
                             fontSize: 20),
                       ),
                     ),
-                    SizedBox(height: 24),
+                    const SizedBox(height: 24),
+                    Material(
+                        color: Colors.white,
+                        child: InkWell(
+                          onTap: () {
+
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 16),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(Assets.icons.icPencil),
+                                const SizedBox(width: 24),
+                                const Text('Thay đổi email',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16)),
+                              ],
+                            ),
+                          ),
+                        ),),
+                    const SizedBox(height: 1),
+                    Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, ChangePasswordPage.path);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 16),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(Assets.icons.icLock),
+                              const SizedBox(width: 20),
+                              const Text('Đổi mật khẩu',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                      ),),
+                    const SizedBox(height: 1),
+                    Material(
+                      color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 16),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(Assets.icons.icPhone),
+                              const SizedBox(width: 18),
+                              const Text('Thêm số điện thoại',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16)),
+                            ],
+                          ),
+                        ),
+                      ),),
+                    const SizedBox(height: 1),
                     Material(
                         color: Colors.white,
                         child: InkWell(
@@ -98,23 +169,23 @@ class _SettingPageState extends State<SettingPage> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
+                                horizontal: 16, vertical: 16),
                             child: Row(
                               children: const [
                                 Icon(
                                   Icons.logout,
                                   color: ColorConstants.primaryColor,
                                 ),
-                                SizedBox(width: 10),
+                                SizedBox(width: 16),
                                 Text('Đăng xuất',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 16)),
                               ],
                             ),
                           ),
-                        ))
+                        )),
                   ],
                 ),
               );
