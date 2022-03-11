@@ -35,7 +35,7 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
     try {
       MessageModelDto messageModel = MessageModelDto(
           idRoom, message, keyUser, DateTime.now(), 'text');
-      final result = await _repositoryImp.sendMessage(messageModel);
+      final result = await _repositoryImp.sendMessage(idRoom, messageModel);
     } catch (e) {
 
     }

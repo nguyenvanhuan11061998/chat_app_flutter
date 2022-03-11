@@ -21,7 +21,7 @@ class RoomChatRepositoryImp implements RoomChatRepository{
   CollectionReference roomSearch = FirebaseFirestore.instance.collection('key_search_room');
   CollectionReference users = FirebaseFirestore.instance.collection('chat_database');
 
-  final DatabaseReference _messagesRef = FirebaseDatabase.instance.ref().child('messages');
+  final DatabaseReference _messagesRef = FirebaseDatabase.instance.ref();
 
   @override
   Future<RoomConfigModel?> getConfigRoom(String idRoom) async {
@@ -36,13 +36,13 @@ class RoomChatRepositoryImp implements RoomChatRepository{
   }
 
   @override
-  Future sendMessage(MessageModelDto message) {
-    return _messagesRef.push().set(message.toJson());
+  Future sendMessage(String idRoom, MessageModelDto message) {
+    return _messagesRef.child('message_room_$idRoom').push().set(message.toJson());
   }
 
   @override
   FirebaseDatabaseQuery.Query getMessages(String idRoom) {
-    return _messagesRef.orderByChild('id_room').equalTo(idRoom);
+    return _messagesRef.child('message_room_$idRoom');
   }
 
   @override

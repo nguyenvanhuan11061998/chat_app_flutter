@@ -73,17 +73,17 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 const SizedBox(height: 30),
                 ElevatedButton(onPressed: () {
-                  // if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
                     context.read<AuthBloc>().login(
-                        "huan4@gmail.com", "huan123456").then((value) {
+                        _email, _password).then((value) {
 
                     }).catchError((err) {
                       showDialog(context: context, builder: (context) {
                         return MessageWidget(title: 'Thông báo', content: (err as FirebaseAuthException).message ?? '', backgroundColor: 0xffDD0A18);
                       });
                     });
-                  // }
+                  }
                 }, child: const Text("Đăng nhập"),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

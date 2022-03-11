@@ -9,7 +9,7 @@ import '../model/user/user_model.dart';
 abstract class RoomChatRepository {
   Future<RoomConfigModel?> getConfigRoom(String idRoom);
 
-  Future sendMessage(MessageModelDto message);
+  Future sendMessage(String idRoom, MessageModelDto message);
 
   Query getMessages(String idRoom);
 
