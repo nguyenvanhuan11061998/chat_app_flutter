@@ -15,7 +15,7 @@ part 'room_config_dto.g.dart';
 class RoomConfigDto implements RoomConfigModel {
 
   @override
-  List<String>? list_user;
+  List<UserModelDto>? list_user;
 
   @override
   String? room_name;

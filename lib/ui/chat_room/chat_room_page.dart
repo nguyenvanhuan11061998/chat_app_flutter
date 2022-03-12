@@ -13,6 +13,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../data/blocs/chat_room/chat_room_state.dart';
+import '../../data/model/message/message_model_dto.dart';
+import '../../utils/app_constants.dart';
 
 class ChatRoomPage extends StatefulWidget {
   String id_room;
@@ -29,14 +31,16 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
   late TextEditingController messageController;
   late ScrollController _scrollController;
   late String keyUserId;
+  late String keyUserCurrent;
 
   @override
   void initState() {
     super.initState();
-    _roomBloc = ChatRoomBloc(widget.id_room);
+    keyUserId = GetIt.I.get<LocalService>().getKeyUser();
     messageController = TextEditingController();
     _scrollController = ScrollController();
-    keyUserId = GetIt.I.get<LocalService>().getKeyUser();
+    keyUserCurrent = '';
+    _roomBloc = ChatRoomBloc(widget.id_room, keyUserId);
   }
 
   void scrollListData() {
@@ -58,9 +62,10 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
       value: _roomBloc,
       child: BlocBuilder<ChatRoomBloc, ChatRoomState>(
         builder: (BuildContext context, state) {
-          return state.when((roomConfigModel) {
+          return state.when((roomConfigModel, mapUser) {
             return Scaffold(
               appBar: AppBar(
+                backgroundColor: Colors.white,
                 leading: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -82,7 +87,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     ),
                   ],
                 ),
-                title: Text('${roomConfigModel.room_name}'),
+                title: Text('${roomConfigModel.room_name}', style: const TextStyle(color: ColorConstants.textColor),),
+                elevation: 0,
                 centerTitle: true,
               ),
               body: Material(
@@ -92,12 +98,16 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   children: [
                     Expanded(
                       child: FirebaseAnimatedList(
+                        padding: EdgeInsets.symmetric(vertical: 20),
                           controller: _scrollController,
                           query: _roomBloc.getMessages(),
                           reverse: false,
                           itemBuilder: (context, snapshot, animation, index) {
+                            MessageModelDto message = MessageModelDto.fromJson(Map<String, dynamic>.from(snapshot.value as Map));
+                            bool changeUser = (keyUserCurrent != message.keyUser);
+                            keyUserCurrent = message.keyUser??'';
                             return MessageItemWidget(
-                                dataMessage: snapshot, keyUserId: keyUserId);
+                                dataMessage: message, user: mapUser[message.keyUser], changeUser: changeUser, isCurrentUser: message.keyUser == keyUserId);
                           }),
                     ),
                     const SizedBox(height: 5),

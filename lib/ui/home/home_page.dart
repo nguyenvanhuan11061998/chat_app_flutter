@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                                 hintColor: const Color(0xff7A7A9D),
                                 textEditingController: _searchController,
                                 onEditingComplete: () {
-                                  if (_searchController.text.trim().isNotEmpty) {
+                                  if (_searchController.text.trim().isNotEmpty && _searchController.text.trim() != userModel.email) {
                                     _homeBloc.search(_searchController.text.trim()).then((value) {
                                       if (value.isNotEmpty) {
                                         setState(() {
@@ -141,6 +141,7 @@ class _HomePageState extends State<HomePage> {
                                         },
                                         child: ItemUserSuggestWidget(
                                           id_room: userModel.list_chat![index],
+                                          keyUser: userModel.keyUser??'',
                                         ),
                                       );
                                     },
@@ -166,6 +167,7 @@ class _HomePageState extends State<HomePage> {
                                       },
                                       child: ItemChatWidget(
                                         idRoom: userModel.list_chat![index],
+                                        keyUser: userModel.keyUser??'',
                                       ),
                                     );
                                   },

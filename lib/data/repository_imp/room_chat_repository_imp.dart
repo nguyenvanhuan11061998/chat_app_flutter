@@ -76,7 +76,7 @@ class RoomChatRepositoryImp implements RoomChatRepository{
       UserModel userModel = UserModelDto(
           myUser.keyUser, myUser.email, myUser.name, '', myUser.avatar, null);
 
-      RoomConfigDto roomConfigModel = RoomConfigDto([userModel.keyUser ?? '', user.keyUser ?? ''], user.name, user.avatar);
+      RoomConfigDto roomConfigModel = RoomConfigDto([userModel as UserModelDto, user as UserModelDto],  '', '');
 
       Map <String, dynamic> dataJson = roomConfigModel.toJson();
 
@@ -125,7 +125,7 @@ class RoomChatRepositoryImp implements RoomChatRepository{
   Future<MessageModel> getLatestMessage(String id_room) async {
     try {
       final data = await _messagesRef.child('message_room_$id_room').orderByKey().limitToLast(1).once();
-      MessageModelDto message = MessageModelDto.fromJson(Map<String, dynamic>.from((data.snapshot.value as Map)!.values.toList()[0] as Map));
+      MessageModelDto message = MessageModelDto.fromJson(Map<String, dynamic>.from((data.snapshot.value as Map).values.toList()[0] as Map));
       return message;
     } catch (e) {
       rethrow;

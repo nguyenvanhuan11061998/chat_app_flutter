@@ -13,7 +13,8 @@ import 'item_latest_message_widget.dart';
 
 class ItemChatWidget extends StatefulWidget {
   String idRoom;
-  ItemChatWidget({Key? key, required this.idRoom}) : super(key: key);
+  String keyUser;
+  ItemChatWidget({Key? key, required this.idRoom, required this.keyUser}) : super(key: key);
 
   @override
   _ItemChatWidgetState createState() => _ItemChatWidgetState();
@@ -26,6 +27,22 @@ class _ItemChatWidgetState extends State<ItemChatWidget> {
       future: GetIt.I.get<RoomChatRepositoryImp>().getConfigRoom(widget.idRoom),
       builder: (context, snap) {
         if (snap.hasData) {
+          String roomName = '';
+          if (snap.data!.room_name!.isNotEmpty) {
+            roomName = snap.data!.room_name!;
+          } else if (snap.data!.list_user![0].keyUser == widget.keyUser) {
+            roomName = snap.data!.list_user![1].name??'';
+          } else {
+            roomName = snap.data!.list_user![0].name??'';
+          }
+          String roomAvatar = '';
+          if (snap.data!.room_image!.isNotEmpty) {
+            roomAvatar = snap.data!.room_image!;
+          } else if (snap.data!.list_user![0].keyUser == widget.keyUser) {
+            roomAvatar = snap.data!.list_user![1].avatar??'';
+          } else {
+            roomAvatar = snap.data!.list_user![0].avatar??'';
+          }
           return Container(
             height: 70,
             child: Row(
@@ -35,7 +52,7 @@ class _ItemChatWidgetState extends State<ItemChatWidget> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: CachedNetworkImage(
-                    imageUrl: snap.data!.room_image ?? '',
+                    imageUrl: roomAvatar,
                     height: 55,
                     width: 55,
                     fit: BoxFit.cover,
@@ -49,7 +66,7 @@ class _ItemChatWidgetState extends State<ItemChatWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${snap.data!.room_name}',
+                      roomName,
                       style: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w600),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

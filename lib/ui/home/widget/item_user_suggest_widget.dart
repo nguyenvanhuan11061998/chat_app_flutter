@@ -8,8 +8,9 @@ import '../../../data/repository_imp/room_chat_repository_imp.dart';
 
 class ItemUserSuggestWidget extends StatefulWidget {
   String id_room;
+  String keyUser;
 
-  ItemUserSuggestWidget({Key? key, required this.id_room}) : super(key: key);
+  ItemUserSuggestWidget({Key? key, required this.id_room, required this.keyUser}) : super(key: key);
 
   @override
   _ItemUserSuggestWidgetState createState() => _ItemUserSuggestWidgetState();
@@ -22,6 +23,22 @@ class _ItemUserSuggestWidgetState extends State<ItemUserSuggestWidget> {
       future: GetIt.I.get<RoomChatRepositoryImp>().getConfigRoom(widget.id_room),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          String roomName = '';
+          if (snapshot.data!.room_name!.isNotEmpty) {
+            roomName = snapshot.data!.room_name!;
+          } else if (snapshot.data!.list_user![0].keyUser == widget.keyUser) {
+            roomName = snapshot.data!.list_user![1].name??'';
+          } else {
+            roomName = snapshot.data!.list_user![0].name??'';
+          }
+          String roomAvatar = '';
+          if (snapshot.data!.room_image!.isNotEmpty) {
+            roomAvatar = snapshot.data!.room_image!;
+          } else if (snapshot.data!.list_user![0].keyUser == widget.keyUser) {
+            roomAvatar = snapshot.data!.list_user![1].avatar??'';
+          } else {
+            roomAvatar = snapshot.data!.list_user![0].avatar??'';
+          }
           return Container(
             width: 70,
             height: 70,
@@ -30,7 +47,7 @@ class _ItemUserSuggestWidgetState extends State<ItemUserSuggestWidget> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: CachedNetworkImage(
-                    imageUrl: snapshot.data!.room_image ?? '',
+                    imageUrl: roomAvatar,
                     height: 60,
                     width: 60,
                     fit: BoxFit.cover,
@@ -40,7 +57,7 @@ class _ItemUserSuggestWidgetState extends State<ItemUserSuggestWidget> {
                 ),
                 Expanded(
                   child: Text(
-                    '${snapshot.data!.room_name}',
+                    roomName,
                     style: TextStyle(fontSize: 12, color: Colors.black),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

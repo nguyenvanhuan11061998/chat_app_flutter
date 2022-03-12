@@ -18,9 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$ChatRoomStateTearOff {
   const _$ChatRoomStateTearOff();
 
-  ChatRoomData call(RoomConfigModel roomConfigModel) {
+  ChatRoomData call(
+      RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser) {
     return ChatRoomData(
       roomConfigModel,
+      mapUser,
     );
   }
 
@@ -42,21 +44,27 @@ const $ChatRoomState = _$ChatRoomStateTearOff();
 mixin _$ChatRoomState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel) $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)
+        $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel)? $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)?
+        $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel)? $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)?
+        $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
@@ -108,7 +116,7 @@ abstract class $ChatRoomDataCopyWith<$Res> {
   factory $ChatRoomDataCopyWith(
           ChatRoomData value, $Res Function(ChatRoomData) then) =
       _$ChatRoomDataCopyWithImpl<$Res>;
-  $Res call({RoomConfigModel roomConfigModel});
+  $Res call({RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser});
 }
 
 /// @nodoc
@@ -124,12 +132,17 @@ class _$ChatRoomDataCopyWithImpl<$Res> extends _$ChatRoomStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? roomConfigModel = freezed,
+    Object? mapUser = freezed,
   }) {
     return _then(ChatRoomData(
       roomConfigModel == freezed
           ? _value.roomConfigModel
           : roomConfigModel // ignore: cast_nullable_to_non_nullable
               as RoomConfigModel,
+      mapUser == freezed
+          ? _value.mapUser
+          : mapUser // ignore: cast_nullable_to_non_nullable
+              as Map<String, UserModel>,
     ));
   }
 }
@@ -137,14 +150,16 @@ class _$ChatRoomDataCopyWithImpl<$Res> extends _$ChatRoomStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ChatRoomData implements ChatRoomData {
-  const _$ChatRoomData(this.roomConfigModel);
+  const _$ChatRoomData(this.roomConfigModel, this.mapUser);
 
   @override
   final RoomConfigModel roomConfigModel;
+  @override
+  final Map<String, UserModel> mapUser;
 
   @override
   String toString() {
-    return 'ChatRoomState(roomConfigModel: $roomConfigModel)';
+    return 'ChatRoomState(roomConfigModel: $roomConfigModel, mapUser: $mapUser)';
   }
 
   @override
@@ -153,12 +168,15 @@ class _$ChatRoomData implements ChatRoomData {
         (other.runtimeType == runtimeType &&
             other is ChatRoomData &&
             const DeepCollectionEquality()
-                .equals(other.roomConfigModel, roomConfigModel));
+                .equals(other.roomConfigModel, roomConfigModel) &&
+            const DeepCollectionEquality().equals(other.mapUser, mapUser));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(roomConfigModel));
+      runtimeType,
+      const DeepCollectionEquality().hash(roomConfigModel),
+      const DeepCollectionEquality().hash(mapUser));
 
   @JsonKey(ignore: true)
   @override
@@ -168,33 +186,39 @@ class _$ChatRoomData implements ChatRoomData {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel) $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)
+        $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
-    return $default(roomConfigModel);
+    return $default(roomConfigModel, mapUser);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel)? $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)?
+        $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
-    return $default?.call(roomConfigModel);
+    return $default?.call(roomConfigModel, mapUser);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel)? $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)?
+        $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
   }) {
     if ($default != null) {
-      return $default(roomConfigModel);
+      return $default(roomConfigModel, mapUser);
     }
     return orElse();
   }
@@ -235,9 +259,12 @@ class _$ChatRoomData implements ChatRoomData {
 }
 
 abstract class ChatRoomData implements ChatRoomState {
-  const factory ChatRoomData(RoomConfigModel roomConfigModel) = _$ChatRoomData;
+  const factory ChatRoomData(
+          RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser) =
+      _$ChatRoomData;
 
   RoomConfigModel get roomConfigModel;
+  Map<String, UserModel> get mapUser;
   @JsonKey(ignore: true)
   $ChatRoomDataCopyWith<ChatRoomData> get copyWith =>
       throw _privateConstructorUsedError;
@@ -284,7 +311,9 @@ class _$ChatRoomLoading implements ChatRoomLoading {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel) $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)
+        $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
@@ -294,7 +323,9 @@ class _$ChatRoomLoading implements ChatRoomLoading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel)? $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)?
+        $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
@@ -304,7 +335,9 @@ class _$ChatRoomLoading implements ChatRoomLoading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel)? $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)?
+        $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
@@ -419,7 +452,9 @@ class _$ChatRoomError implements ChatRoomError {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel) $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)
+        $default, {
     required TResult Function() loading,
     required TResult Function(dynamic error) error,
   }) {
@@ -429,7 +464,9 @@ class _$ChatRoomError implements ChatRoomError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel)? $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)?
+        $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
   }) {
@@ -439,7 +476,9 @@ class _$ChatRoomError implements ChatRoomError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(RoomConfigModel roomConfigModel)? $default, {
+    TResult Function(
+            RoomConfigModel roomConfigModel, Map<String, UserModel> mapUser)?
+        $default, {
     TResult Function()? loading,
     TResult Function(dynamic error)? error,
     required TResult orElse(),
