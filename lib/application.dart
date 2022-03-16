@@ -19,25 +19,34 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: themeLight(context),
-      home: AuthNavigation(
-          splashScreen: AppSplashScreen((context) async {
-            await Future.delayed(const Duration(seconds: 3));
-            if (GetIt.instance.get<LocalService>().getKeyUser().isNotEmpty) {
-              // await GetIt.I.get<UserRepositoryImp>().getUserModel(GetIt.I.get<LocalService>().getKeyUser());
-              return AuthNavigationState.authorized();
-            } else {
-              return AuthNavigationState.unAuthorized();
-            }
-          }),
-          unAuthorizedBuilder: (BuildContext context) {
-            return AuthNavigator();
-          },
-          authorizedBuilder: (BuildContext context) {
-            return MainNavigator();
-          },
-          maintenanceBuilder: (context) => Container()),
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: MaterialApp(
+        themeMode: ThemeMode.light,
+        theme: themeLight(context),
+        home: AuthNavigation(
+            splashScreen: AppSplashScreen((context) async {
+              await Future.delayed(const Duration(seconds: 3));
+              if (GetIt.instance.get<LocalService>().getKeyUser().isNotEmpty) {
+                // await GetIt.I.get<UserRepositoryImp>().getUserModel(GetIt.I.get<LocalService>().getKeyUser());
+                return AuthNavigationState.authorized();
+              } else {
+                return AuthNavigationState.unAuthorized();
+              }
+            }),
+            unAuthorizedBuilder: (BuildContext context) {
+              return AuthNavigator();
+            },
+            authorizedBuilder: (BuildContext context) {
+              return MainNavigator();
+            },
+            maintenanceBuilder: (context) => Container()),
+      ),
     );
   }
 }

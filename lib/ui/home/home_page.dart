@@ -10,6 +10,7 @@ import '../../data/blocs/home/home_bloc.dart';
 import '../../data/blocs/home/home_state.dart';
 import '../chat_room/chat_room_page.dart';
 import '../setting/setting_page.dart';
+import '../widget/base_app_bar_widget.dart';
 import '../widget/search_form_field.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,27 +42,23 @@ class _HomePageState extends State<HomePage> {
         builder: (BuildContext context, state) {
           return state.when((userModel) {
             return Scaffold(
-                appBar: AppBar(
-                  leading: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, SettingPage.path);
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: CachedNetworkImage(
-                          imageUrl: userModel.avatar??'',
-                          height: 30,
-                          width: 30,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.center,
-                        ),
+                appBar: BaseAppBarWidget(
+                  leading: Container(),
+                  avatar: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, SettingPage.path);
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: CachedNetworkImage(
+                        imageUrl: userModel.avatar??'',
+                        height: 30,
+                        width: 30,
+                        fit: BoxFit.cover,
+                        alignment: Alignment.center,
                       ),
                     ),
                   ),
-                  backgroundColor: Colors.white,
-                  elevation: 0,
                 ),
                 body: RefreshIndicator(
                   onRefresh: () {
@@ -72,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     child: SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - AppBar().preferredSize.height - MediaQuery.of(context).padding.top),
+                        constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height - AppBar().preferredSize.height - 20 - MediaQuery.of(context).padding.top),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,

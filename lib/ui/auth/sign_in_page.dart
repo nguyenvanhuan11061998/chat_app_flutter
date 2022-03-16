@@ -3,7 +3,9 @@
 
 
 import 'package:chat_app_flutter/data/blocs/auth/auth_bloc.dart';
+import 'package:chat_app_flutter/gen/assets.gen.dart';
 import 'package:chat_app_flutter/ui/auth/sign_up_page.dart';
+import 'package:chat_app_flutter/utils/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,63 +37,67 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Đăng nhập')),
+      appBar: AppBar(title: const Text('Đăng nhập'),
+      backgroundColor: ColorConstants.primaryColor,
+      centerTitle: true,),
       body: Form(
         key: _formKey,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Đăng nhập", style: TextStyle(fontSize: 20),),
-                const SizedBox(height: 20),
-                AppTextFormField(
-                  hint: 'Nhập email',
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Yêu cầu nhập email';
-                    } else {
-                      _email = value.trim();
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(height: 20),
-                AppTextFormField(
-                  hint: 'Nhập password',
-                  isPassword: true,
-                  validator: (value){
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Yêu cầu nhập mật khẩu';
-                    } else {
-                      _password = value.trim();
-                      return null;
-                    }
-                  },
-                ),
-                const SizedBox(height: 30),
-                ElevatedButton(onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    context.read<AuthBloc>().login(
-                        _email, _password).then((value) {
-
-                    }).catchError((err) {
-                      showDialog(context: context, builder: (context) {
-                        return MessageWidget(title: 'Thông báo', content: (err as FirebaseAuthException).message ?? '', backgroundColor: 0xffDD0A18);
-                      });
-                    });
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50),
+              Image.asset(
+                Assets.images.logoChatApp.path,
+                height: 80,
+                fit: BoxFit.fitHeight,
+              ),
+              const SizedBox(height: 50),
+              AppTextFormField(
+                hint: 'Nhập email',
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Yêu cầu nhập email';
+                  } else {
+                    _email = value.trim();
+                    return null;
                   }
-                }, child: const Text("Đăng nhập"),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7),
-                  )
-                ),),
-              ],
-            ),
+                },
+              ),
+              const SizedBox(height: 20),
+              AppTextFormField(
+                hint: 'Nhập password',
+                isPassword: true,
+                validator: (value){
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Yêu cầu nhập mật khẩu';
+                  } else {
+                    _password = value.trim();
+                    return null;
+                  }
+                },
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton(onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  context.read<AuthBloc>().login(
+                      _email, _password).then((value) {
+
+                  }).catchError((err) {
+                    showDialog(context: context, builder: (context) {
+                      return MessageWidget(title: 'Thông báo', content: (err as FirebaseAuthException).message ?? '', backgroundColor: 0xffDD0A18);
+                    });
+                  });
+                }
+              }, child: const Text("Đăng nhập"),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7),
+                )
+              ),),
+            ],
           ),
         ),
       ),

@@ -300,10 +300,19 @@ class $AssetsIconsGen {
   String get jamInfo => 'assets/icons/jam_info.svg';
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/logo_chat_app.png
+  AssetGenImage get logoChatApp =>
+      const AssetGenImage('assets/images/logo_chat_app.png');
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class AssetGenImage extends AssetImage {

@@ -36,19 +36,30 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   SizedBox(width: MediaQuery.of(context).size.width / 4),
-                  Expanded(
+                  Flexible(
                     child: Container(
                       padding:
                           const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
                           color: ColorConstants.primaryColor),
-                      child: Text(
-                        '${widget.dataMessage.content}',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            '${widget.dataMessage.content}',
+                            style: const TextStyle(
+                              height: 1.4,
+                                color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16),
+                          ),
+                          const SizedBox(height: 5),
+                          Text('20:20', style: TextStyle(color: Colors.white, fontSize: 10),
+                          textAlign: TextAlign.end,),
+                        ],
                       ),
                     ),
                   ),
@@ -61,6 +72,7 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(50),
@@ -72,19 +84,27 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                   alignment: Alignment.center,
                 ),
               ),
-              SizedBox(width: 10),
-              Expanded(
+              const SizedBox(width: 10),
+              Flexible(
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
                       color: ColorConstants.grayColor),
-                  child: Text(
-                    '${widget.dataMessage.content}',
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.w400, fontSize: 16),
-                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${widget.dataMessage.content}',
+                        style: const TextStyle(
+                            height: 1.4,
+                            color: ColorConstants.textColor, fontWeight: FontWeight.w400, fontSize: 16),
+                      ),
+                      const SizedBox(height: 5),
+                      Text('20:20', style: TextStyle(color: Color(0xd511006f), fontSize: 10)),
+                    ],
+                  )
                 ),
               ),
               SizedBox(width: MediaQuery.of(context).size.width / 4),

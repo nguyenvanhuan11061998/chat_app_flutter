@@ -2,12 +2,14 @@
 
 
 import 'package:chat_app_flutter/ui/auth/sign_in_page.dart';
+import 'package:chat_app_flutter/utils/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/blocs/auth/auth_bloc.dart';
+import '../../gen/assets.gen.dart';
 import '../widget/app_text_form_field.dart';
 import '../widget/message_widget.dart';
 
@@ -32,19 +34,34 @@ class _SignUpPageState extends State<SignUpPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Đăng ký')),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Center(
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: const Text('Đăng ký'),
+          centerTitle: true,
+          backgroundColor: ColorConstants.primaryColor,
+        ),
+        body: Form(
+          key: _formKey,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Đăng ký", style: TextStyle(fontSize: 20),),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
+                Image.asset(
+                  Assets.images.logoChatApp.path,
+                  height: 80,
+                  fit: BoxFit.fitHeight,
+                ),
+                const SizedBox(height: 24),
                 AppTextFormField(
                   hint: 'Nhập tên',
                   validator: (value) {

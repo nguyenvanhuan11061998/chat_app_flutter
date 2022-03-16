@@ -5,6 +5,7 @@ import 'package:chat_app_flutter/data/blocs/chat_room/chat_room_bloc.dart';
 import 'package:chat_app_flutter/data/data_source/local_service.dart';
 import 'package:chat_app_flutter/gen/assets.gen.dart';
 import 'package:chat_app_flutter/ui/chat_room/widget/message_item_widget.dart';
+import 'package:chat_app_flutter/ui/widget/base_app_bar_widget.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,50 +65,52 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
         builder: (BuildContext context, state) {
           return state.when((roomConfigModel, mapUser) {
             return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.white,
-                leading: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: SvgPicture.asset(Assets.icons.icBack,
-                            width: 200, height: 20)),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: CachedNetworkImage(
-                        imageUrl: roomConfigModel.room_image ?? '',
-                        height: 30,
-                        width: 30,
-                        fit: BoxFit.cover,
-                        alignment: Alignment.center,
-                      ),
-                    ),
-                  ],
+              appBar: BaseAppBarWidget(
+                showLineBottom: true,
+                avatar: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: CachedNetworkImage(
+                    imageUrl: roomConfigModel.room_image ?? '',
+                    height: 55,
+                    width: 55,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                  ),
                 ),
-                title: Text('${roomConfigModel.room_name}', style: const TextStyle(color: ColorConstants.textColor),),
-                elevation: 0,
-                centerTitle: true,
+                title: Text(
+                  roomConfigModel.room_name ?? '',
+                  style: const TextStyle(
+                      color: ColorConstants.textColor,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                action: SvgPicture.asset(Assets.icons.icPhone, width: 24, height: 24, color: ColorConstants.textColor,),
               ),
               body: Material(
-                color: Colors.white,
+                color: Color(0x68f3f3f3),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Expanded(
                       child: FirebaseAnimatedList(
-                        padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: EdgeInsets.symmetric(vertical: 20),
                           controller: _scrollController,
                           query: _roomBloc.getMessages(),
                           reverse: false,
                           itemBuilder: (context, snapshot, animation, index) {
-                            MessageModelDto message = MessageModelDto.fromJson(Map<String, dynamic>.from(snapshot.value as Map));
-                            bool changeUser = (keyUserCurrent != message.keyUser);
-                            keyUserCurrent = message.keyUser??'';
+                            MessageModelDto message = MessageModelDto.fromJson(
+                                Map<String, dynamic>.from(
+                                    snapshot.value as Map));
+                            bool changeUser =
+                                (keyUserCurrent != message.keyUser);
+                            keyUserCurrent = message.keyUser ?? '';
                             return MessageItemWidget(
-                                dataMessage: message, user: mapUser[message.keyUser], changeUser: changeUser, isCurrentUser: message.keyUser == keyUserId);
+                                dataMessage: message,
+                                user: mapUser[message.keyUser],
+                                changeUser: changeUser,
+                                isCurrentUser: message.keyUser == keyUserId);
                           }),
                     ),
                     const SizedBox(height: 5),
@@ -120,12 +123,14 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                           children: [
                             Expanded(
                                 child: CupertinoTextField(
-                              onTap: () async {
-                                await Future.delayed(
-                                    const Duration(milliseconds: 250));
-                                scrollListData();
-                              },
-                              controller: messageController,
+                                    onTap: () async {
+                                    await Future.delayed(
+                                      const Duration(milliseconds: 250));
+                                    scrollListData();
+                                    },
+                                controller: messageController,
+                                  placeholder: 'Aa',
+                                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                             )),
                             const SizedBox(width: 10),
                             InkWell(
@@ -135,13 +140,13 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                       .sendMessage(
                                           messageController.text.trim())
                                       .then((value) {
-                                        if (value != null && value) {
-                                          setState(() {
-                                            messageController.clear();
-                                            FocusScope.of(context).unfocus();
-                                            scrollListData();
-                                          });
-                                        }
+                                    if (value != null && value) {
+                                      setState(() {
+                                        messageController.clear();
+                                        FocusScope.of(context).unfocus();
+                                        scrollListData();
+                                      });
+                                    }
                                   });
                                 }
                               },
