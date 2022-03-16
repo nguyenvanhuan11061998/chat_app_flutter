@@ -49,5 +49,68 @@ ThemeData themeLight(BuildContext context) {
         elevation: 0
       ),
     ),
+    textTheme: TextTheme(
+        button: ThemeData.light().textTheme.button!.copyWith(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PlusJakarta'),
+        caption: ThemeData.light().textTheme.caption!.copyWith(
+            color: Colors.black,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'PlusJakarta'),
+        headline6: ThemeData.light().textTheme.headline6!.copyWith(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.normal,
+            fontFamily: 'PlusJakarta'),
+        headline5: ThemeData.light().textTheme.headline5!.copyWith(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'PlusJakarta'),
+        headline4: ThemeData.light().textTheme.headline4!.copyWith(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'PlusJakarta'),
+        headline3: ThemeData.light().textTheme.headline3!.copyWith(
+            color: Colors.black,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'PlusJakarta'),
+        headline2: ThemeData.light().textTheme.headline2!.copyWith(
+            color: Colors.black,
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'PlusJakarta'),
+        headline1: ThemeData.light().textTheme.headline1!.copyWith(
+            color: Colors.black,
+            fontSize: 36,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'PlusJakarta'),
+        subtitle1: ThemeData.light().textTheme.subtitle1!.copyWith(
+            color: Colors.black,
+            fontSize: 15,
+            fontWeight: FontWeight.w400,
+            fontFamily: 'PlusJakarta'
+          //da dung
+        ),
+        subtitle2: ThemeData.light().textTheme.subtitle2!.copyWith(
+            color: Colors.black,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PlusJakarta'),
+        bodyText2: ThemeData.light().textTheme.bodyText2!.copyWith(
+            fontSize: 14,
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'PlusJakarta'),
+        bodyText1: ThemeData.light().textTheme.bodyText1!.copyWith(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            fontFamily: 'PlusJakarta')),
   );
 }

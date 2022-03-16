@@ -80,3 +80,17 @@ flutter:
     - assets/
     - assets/icons/
     - assets/images/
+
+  fonts:
+    - family: PlusJakarta
+      fonts:
+      - asset: assets/fonts/PlusJakartaText-Bold.otf
+        weight: 700
+      - asset: assets/fonts/PlusJakartaText-Bold.otf
+        weight: 600
+      - asset: assets/fonts/PlusJakartaDisplay-Medium.otf
+        weight: 500
+      - asset: assets/fonts/PlusJakartaDisplay-Regular.otf
+        weight: 400
+      - asset: assets/fonts/PlusJakartaText-Light.otf
+        weight: 300

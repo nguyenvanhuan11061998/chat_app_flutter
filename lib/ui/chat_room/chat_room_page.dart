@@ -71,25 +71,48 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   borderRadius: BorderRadius.circular(30),
                   child: CachedNetworkImage(
                     imageUrl: roomConfigModel.room_image ?? '',
-                    height: 55,
-                    width: 55,
+                    height: 48,
+                    width: 48,
                     fit: BoxFit.cover,
                     alignment: Alignment.center,
                   ),
                 ),
-                title: Text(
-                  roomConfigModel.room_name ?? '',
-                  style: const TextStyle(
-                      color: ColorConstants.textColor,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      roomConfigModel.room_name ?? '',
+                      style: const TextStyle(
+                          color: ColorConstants.textColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Online',
+                      style: TextStyle(
+                          color: ColorConstants.textColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-                action: SvgPicture.asset(Assets.icons.icPhone, width: 24, height: 24, color: ColorConstants.textColor,),
+                action: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(Assets.icons.icChatCallVideo, width: 24, height: 24, color: ColorConstants.textColor,),
+                    const SizedBox(width: 24),
+                    SvgPicture.asset(Assets.icons.icChatOption, width: 4, height: 16, color: ColorConstants.textColor,),
+                  ],
+                ),
               ),
               body: Material(
-                color: Color(0x68f3f3f3),
+                color: Colors.white,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -115,8 +138,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                     ),
                     const SizedBox(height: 5),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.fromLTRB(16, 10, 16, 24),
                       child: Material(
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,8 +151,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                     scrollListData();
                                     },
                                 controller: messageController,
-                                  placeholder: 'Aa',
-                                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                                  placeholder: 'Write a message...',
+                                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                             )),
                             const SizedBox(width: 10),
                             InkWell(

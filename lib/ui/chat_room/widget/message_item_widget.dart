@@ -43,7 +43,7 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                     child: Container(
                       padding:
                           const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
                           color: ColorConstants.primaryColor),
                       child: Column(
@@ -52,12 +52,10 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                         children: [
                           Text(
                             '${widget.dataMessage.content}',
-                            style: const TextStyle(
-                              height: 1.4,
-                                color: Colors.white, fontWeight: FontWeight.w400, fontSize: 16),
+                            style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w400, color: Colors.white, fontSize: 16)
                           ),
                           const SizedBox(height: 5),
-                          Text('20:20', style: TextStyle(color: Colors.white, fontSize: 10),
+                          const Text('20:20', style: TextStyle(color: Colors.white, fontSize: 12),
                           textAlign: TextAlign.end,),
                         ],
                       ),
@@ -89,7 +87,7 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
                       color: ColorConstants.grayColor),
                   child: Column(
@@ -102,7 +100,7 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                             color: ColorConstants.textColor, fontWeight: FontWeight.w400, fontSize: 16),
                       ),
                       const SizedBox(height: 5),
-                      Text('20:20', style: TextStyle(color: Color(0xd511006f), fontSize: 10)),
+                      const Text('20:20', style: TextStyle(color: Color(0xffA1A1BC), fontSize: 12)),
                     ],
                   )
                 ),

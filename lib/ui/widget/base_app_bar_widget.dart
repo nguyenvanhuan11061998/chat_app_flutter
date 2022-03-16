@@ -26,7 +26,7 @@ class BaseAppBarWidget extends StatelessWidget with PreferredSizeWidget {
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
             if (top != null) top!,
@@ -40,8 +40,8 @@ class BaseAppBarWidget extends StatelessWidget with PreferredSizeWidget {
                         onTap: () {
                           Navigator.of(context).pop();
                         },
-                        child: SvgPicture.asset(Assets.icons.icBack,
-                            width: 200, height: 24)),
+                        child: SvgPicture.asset(Assets.icons.icChatBack,
+                            width: 24, height: 24)),
                 const SizedBox(width:12),
                 avatar ?? Container(),
                 const SizedBox(width: 12),
@@ -54,11 +54,14 @@ class BaseAppBarWidget extends StatelessWidget with PreferredSizeWidget {
               ],
             ),
             if (bottom != null) bottom!,
-            const SizedBox(height: 10),
+            const SizedBox(height: 16),
             if (showLineBottom)
-              Container(
-                height: 0.2,
-                color: ColorConstants.textColor,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 0.2,
+                  color: ColorConstants.textColor,
+                ),
               ),
           ],
         ),
@@ -68,5 +71,5 @@ class BaseAppBarWidget extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize =>
-      Size.fromHeight(kToolbarHeight + 20 + (bottom?.preferredSize.height ?? 0) + (top?.preferredSize.height ?? 0),);
+      Size.fromHeight(kToolbarHeight + 19 + (top?.preferredSize.height ?? 0),);
 }

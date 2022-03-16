@@ -77,6 +77,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_chat.svg
   String get icChat => 'assets/icons/ic_chat.svg';
 
+  /// File path: assets/icons/ic_chat_back.svg
+  String get icChatBack => 'assets/icons/ic_chat_back.svg';
+
+  /// File path: assets/icons/ic_chat_call_video.svg
+  String get icChatCallVideo => 'assets/icons/ic_chat_call_video.svg';
+
+  /// File path: assets/icons/ic_chat_option.svg
+  String get icChatOption => 'assets/icons/ic_chat_option.svg';
+
   /// File path: assets/icons/ic_check_box_detail.svg
   String get icCheckBoxDetail => 'assets/icons/ic_check_box_detail.svg';
 
@@ -155,6 +164,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/ic_hot.svg
   String get icHot => 'assets/icons/ic_hot.svg';
+
+  /// File path: assets/icons/ic_icons_chat.svg
+  String get icIconsChat => 'assets/icons/ic_icons_chat.svg';
 
   /// File path: assets/icons/ic_info_order.svg
   String get icInfoOrder => 'assets/icons/ic_info_order.svg';
