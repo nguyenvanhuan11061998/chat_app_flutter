@@ -77,6 +77,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_chat.svg
   String get icChat => 'assets/icons/ic_chat.svg';
 
+  /// File path: assets/icons/ic_chat_attach.svg
+  String get icChatAttach => 'assets/icons/ic_chat_attach.svg';
+
   /// File path: assets/icons/ic_chat_back.svg
   String get icChatBack => 'assets/icons/ic_chat_back.svg';
 
