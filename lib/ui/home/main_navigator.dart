@@ -6,7 +6,7 @@ import 'package:chat_app_flutter/ui/home/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../utils/navigator_support.dart';
 import '../auth/change_password_page.dart';
@@ -22,6 +22,13 @@ class MainNavigator extends StatefulWidget {
 
 class _MainNavigatorState extends State<MainNavigator> {
   final GlobalKey<NavigatorSupportState> _keyNav = GlobalKey();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    requestPermission();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,5 +56,9 @@ class _MainNavigatorState extends State<MainNavigator> {
         },
       ),
     );
+  }
+
+  Future<void> requestPermission() async {
+    await Permission.storage.request();
   }
 }

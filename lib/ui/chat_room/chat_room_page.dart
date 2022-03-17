@@ -5,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_flutter/data/blocs/chat_room/chat_room_bloc.dart';
 import 'package:chat_app_flutter/data/data_source/local_service.dart';
 import 'package:chat_app_flutter/gen/assets.gen.dart';
+import 'package:chat_app_flutter/ui/chat_room/widget/attach_file_widget.dart';
+import 'package:chat_app_flutter/ui/chat_room/widget/images_selected_cache_widget.dart';
 import 'package:chat_app_flutter/ui/chat_room/widget/message_item_widget.dart';
 import 'package:chat_app_flutter/ui/widget/base_app_bar_widget.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
@@ -14,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../data/blocs/chat_room/chat_room_state.dart';
 import '../../data/model/message/message_model_dto.dart';
@@ -97,7 +100,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                   avatar: ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: CachedNetworkImage(
-                      imageUrl: roomConfigModel.room_image ?? '',
+                      imageUrl: roomConfigModel.room_image ?? Assets.icons.icUserDefault,
                       height: 48,
                       width: 48,
                       fit: BoxFit.cover,
@@ -168,79 +171,94 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                         padding: const EdgeInsets.fromLTRB(16, 10, 16, 24),
                         child: Material(
                           color: Colors.white,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                          child: Column(
                             children: [
-                              Expanded(
-                                  child: FocusScope(
-                                    child: Focus(
-                                      onFocusChange: (isFocus) {
-                                        if (isFocus) {
-                                          setState(() {
-                                            emojiShowing = false;
-                                          });
-                                        }
-                                      },
-                                      child: CupertinoTextField(
-                                        enableInteractiveSelection: false,
-                                          onTap: () async {
-                                          await Future.delayed(
-                                            const Duration(milliseconds: 250));
-                                          scrollListData();
-                                          },
-                                        controller: messageController,
-                                        placeholder: 'Write a message...',
-                                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                                        style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w400, fontSize: 16),
-                                        maxLines: 6,
-                                        minLines: 1,
-                                        prefix: InkResponse(
-                                          onTap: () {},
-                                          child: Padding(
-                                          padding: const EdgeInsets.all(16),
-                                          child: SvgPicture.asset(
-                                            Assets.icons.icChatAttach,
-                                            width: 11,
-                                            height: 22),
-                                          ) ,
-                                        ),
-                                        suffix: Padding(
-                                          padding: const EdgeInsets.only(right: 10),
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                emojiShowing = !emojiShowing;
-                                                if (emojiShowing) {
-                                                  FocusScope.of(context).unfocus();
-                                                }
-                                              });
-                                            },
-                                            child: SvgPicture.asset(Assets.icons.icIconsChat, width: 24, height: 24),
-                                          ),
-                                        ),
-                              ),
-                                    ),
-                                  )),
-                              const SizedBox(width: 10),
-                              InkWell(
-                                onTap: () {
-                                  if (messageController.text.trim().isNotEmpty) {
-                                    _roomBloc
-                                        .sendMessage(
-                                            messageController.text.trim())
-                                        .then((value) {
-                                      if (value != null && value) {
-                                        setState(() {
-                                          messageController.clear();
-                                          FocusScope.of(context).unfocus();
-                                          scrollListData();
-                                        });
-                                      }
-                                    });
+                              StreamBuilder<List<String>>(
+                                stream: _roomBloc.imagesSelectedCache(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<dynamic> snapshot) {
+                                  if (snapshot.hasData &&
+                                      snapshot.data
+                                          .isNotEmpty) {
+                                    return ImagesSelectedCacheWidget(
+                                        listImageSelectCache: snapshot.data);
+                                  } else {
+                                    return Container();
                                   }
                                 },
-                                child: SvgPicture.asset(Assets.icons.icShare,
-                                    width: 20, height: 20),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  AttackFileWidget(key: ValueKey(DateTime.now()), onSelectedImage: (List<String> value) {
+                                    if (value.isNotEmpty) {
+                                      setState(() {
+                                        _roomBloc.addImage(value);
+                                      });
+                                    }
+                                  },),
+                                  Expanded(
+                                      child: FocusScope(
+                                        child: Focus(
+                                          onFocusChange: (isFocus) {
+                                            if (isFocus) {
+                                              setState(() {
+                                                emojiShowing = false;
+                                              });
+                                            }
+                                          },
+                                          child: CupertinoTextField(
+                                            enableInteractiveSelection: false,
+                                              onTap: () async {
+                                              await Future.delayed(
+                                                const Duration(milliseconds: 250));
+                                              scrollListData();
+                                              },
+                                            controller: messageController,
+                                            placeholder: 'Write a message...',
+                                            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                                            style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w400, fontSize: 16),
+                                            maxLines: 6,
+                                            minLines: 1,
+                                            suffix: Padding(
+                                              padding: const EdgeInsets.only(right: 10),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    emojiShowing = !emojiShowing;
+                                                    if (emojiShowing) {
+                                                      FocusScope.of(context).unfocus();
+                                                    }
+                                                  });
+                                                },
+                                                child: SvgPicture.asset(Assets.icons.icIconsChat, width: 24, height: 24),
+                                              ),
+                                            ),
+                                  ),
+                                        ),
+                                      )),
+                                  const SizedBox(width: 10),
+                                  InkWell(
+                                    onTap: () {
+                                      if (messageController.text.trim().isNotEmpty) {
+                                        _roomBloc
+                                            .sendMessage(
+                                                messageController.text.trim())
+                                            .then((value) {
+                                          if (value != null && value) {
+                                            setState(() {
+                                              messageController.clear();
+                                              FocusScope.of(context).unfocus();
+                                              scrollListData();
+                                            });
+                                          }
+                                        });
+                                      }
+                                    },
+                                    child: SvgPicture.asset(Assets.icons.icChatSendMess,
+                                        width: 20, height: 20, color: ColorConstants.primaryColor,),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

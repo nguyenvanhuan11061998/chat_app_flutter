@@ -89,6 +89,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_chat_option.svg
   String get icChatOption => 'assets/icons/ic_chat_option.svg';
 
+  /// File path: assets/icons/ic_chat_send_mess.svg
+  String get icChatSendMess => 'assets/icons/ic_chat_send_mess.svg';
+
   /// File path: assets/icons/ic_check_box_detail.svg
   String get icCheckBoxDetail => 'assets/icons/ic_check_box_detail.svg';
 
@@ -202,6 +205,12 @@ class $AssetsIconsGen {
   /// File path: assets/icons/ic_noti.svg
   String get icNoti => 'assets/icons/ic_noti.svg';
 
+  /// File path: assets/icons/ic_open_camera.svg
+  String get icOpenCamera => 'assets/icons/ic_open_camera.svg';
+
+  /// File path: assets/icons/ic_open_gallery.svg
+  String get icOpenGallery => 'assets/icons/ic_open_gallery.svg';
+
   /// File path: assets/icons/ic_order_complete.svg
   String get icOrderComplete => 'assets/icons/ic_order_complete.svg';
 
@@ -231,6 +240,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/ic_profile.svg
   String get icProfile => 'assets/icons/ic_profile.svg';
+
+  /// File path: assets/icons/ic_remove_item.svg
+  String get icRemoveItem => 'assets/icons/ic_remove_item.svg';
 
   /// File path: assets/icons/ic_remove_tag.svg
   String get icRemoveTag => 'assets/icons/ic_remove_tag.svg';
@@ -288,6 +300,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/ic_twitter.svg
   String get icTwitter => 'assets/icons/ic_twitter.svg';
+
+  /// File path: assets/icons/ic_user_default.svg
+  String get icUserDefault => 'assets/icons/ic_user_default.svg';
 
   /// File path: assets/icons/ic_voucher.svg
   String get icVoucher => 'assets/icons/ic_voucher.svg';

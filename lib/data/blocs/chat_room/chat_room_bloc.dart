@@ -10,8 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../model/message/message_model_dto.dart';
-import '../../repository/user_repository.dart';
-import '../../repository_imp/user_repository_imp.dart';
 import 'chat_room_state.dart';
 
 class ChatRoomBloc extends Cubit<ChatRoomState> {
@@ -21,12 +19,14 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
   late final String idRoom;
   late final String keyUserId;
   final String keyUser = GetIt.I.get<LocalService>().getKeyUser();
+  late List<String> listImageSelectCache;
 
   ChatRoomBloc(this.idRoom, this.keyUserId) : super(const ChatRoomState.loading()) {
     initData();
   }
 
   initData() {
+    listImageSelectCache = [];
     _repositoryImp.getConfigRoom(idRoom).then((value) async {
       if (value != null) {
         Map<String, UserModel> mapUser = HashMap();
@@ -72,5 +72,20 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
    Query getMessages() {
     return _repositoryImp.getMessages(idRoom);
   }
+
+  /// ===========================================================================
+  Stream<List<String>> imagesSelectedCache() async* {
+    yield listImageSelectCache;
+  }
+
+  Future addImage(List<String> images) async {
+    for (var element in images) {
+      if (!listImageSelectCache.contains(element)) {
+        listImageSelectCache.add(element);
+      }
+    }
+  }
+
+
 
 }
