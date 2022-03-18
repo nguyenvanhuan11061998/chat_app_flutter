@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../data/blocs/chat_room/chat_room_state.dart';
 import '../../data/model/message/message_model_dto.dart';
@@ -173,8 +172,8 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                           color: Colors.white,
                           child: Column(
                             children: [
-                              StreamBuilder<List<String>>(
-                                stream: _roomBloc.imagesSelectedCache(),
+                              StreamBuilder(
+                                stream: _roomBloc.listImageSelectCacheStream,
                                 builder: (BuildContext context,
                                     AsyncSnapshot<dynamic> snapshot) {
                                   if (snapshot.hasData &&
@@ -190,11 +189,9 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  AttackFileWidget(key: ValueKey(DateTime.now()), onSelectedImage: (List<String> value) {
+                                  AttackFileWidget(key: ValueKey(DateTime.now()), onSelectedImage: (List<String> value) async {
                                     if (value.isNotEmpty) {
-                                      setState(() {
-                                        _roomBloc.addImage(value);
-                                      });
+                                      await _roomBloc.addImage(value);
                                     }
                                   },),
                                   Expanded(
@@ -240,13 +237,14 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                   const SizedBox(width: 10),
                                   InkWell(
                                     onTap: () {
-                                      if (messageController.text.trim().isNotEmpty) {
+                                      if (messageController.text.trim().isNotEmpty && _roomBloc.listImageSelectCache.isNotEmpty) {
                                         _roomBloc
                                             .sendMessage(
-                                                messageController.text.trim())
+                                                messageController.text.trim(), _roomBloc.listImageSelectCache)
                                             .then((value) {
                                           if (value != null && value) {
                                             setState(() {
+                                              _roomBloc.listImageSelectCache = [];
                                               messageController.clear();
                                               FocusScope.of(context).unfocus();
                                               scrollListData();

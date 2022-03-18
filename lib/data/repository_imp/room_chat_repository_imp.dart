@@ -1,11 +1,14 @@
 
 
 
+import 'dart:io';
+
 import 'package:chat_app_flutter/data/model/message/message_model.dart';
 import 'package:chat_app_flutter/data/model/message/message_model_dto.dart';
 import 'package:chat_app_flutter/data/model/room_chat_config/room_config_model.dart';
 import 'package:chat_app_flutter/data/repository/room_chat_repository.dart';
 import 'package:firebase_database/firebase_database.dart' as FirebaseDatabaseQuery;
+import 'package:firebase_storage/firebase_storage.dart' as StorageReference;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -35,8 +38,35 @@ class RoomChatRepositoryImp implements RoomChatRepository{
   }
 
   @override
-  Future sendMessage(String idRoom, MessageModelDto message) {
-    return _messagesRef.child('message_room_$idRoom').push().set(message.toJson());
+  Future sendMessage(String idRoom, MessageModelDto message, List<String> listImage) async {
+    try {
+      List<String> listImageUpload = [];
+      if (listImage.isNotEmpty) {
+        StorageReference.Reference storageReference = StorageReference
+            .FirebaseStorage.instance.ref().child('images_$idRoom');
+        List<StorageReference.UploadTask> _uploadTasks = [];
+        for (var element in listImage) {
+          File file = File(element);
+          StorageReference.UploadTask uploadTask = storageReference.child(
+              '/img_${DateTime.now()}_${file.path
+                  .split('/')
+                  .last}').putFile(file);
+          _uploadTasks.add(uploadTask);
+        }
+        for (var element in _uploadTasks) {
+          StorageReference.TaskSnapshot taskSnapshot = await Future.value(
+              element);
+          await taskSnapshot.ref.getDownloadURL().then((value) {
+            listImageUpload.add(value);
+          });
+        }
+      }
+      message.images = listImageUpload;
+      return _messagesRef.child('message_room_$idRoom').push().set(
+          message.toJson());
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

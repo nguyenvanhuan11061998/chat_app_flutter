@@ -13,6 +13,7 @@ MessageModelDto _$MessageModelDtoFromJson(Map<String, dynamic> json) =>
       json['keyUser'] as String?,
       json['time'] == null ? null : DateTime.parse(json['time'] as String),
       json['type'] as String?,
+      (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$MessageModelDtoToJson(MessageModelDto instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$MessageModelDtoToJson(MessageModelDto instance) =>
       'keyUser': instance.keyUser,
       'time': instance.time?.toIso8601String(),
       'type': instance.type,
+      'images': instance.images,
     };

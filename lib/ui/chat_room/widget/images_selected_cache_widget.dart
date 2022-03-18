@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:chat_app_flutter/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../data/blocs/chat_room/chat_room_bloc.dart';
 
 class ImagesSelectedCacheWidget extends StatefulWidget {
   List<String> listImageSelectCache;
@@ -42,8 +45,13 @@ class _ImagesSelectedCacheWidgetState extends State<ImagesSelectedCacheWidget> {
                   Positioned(
                     top: 4,
                     right: 4,
-                    child: SvgPicture.asset(Assets.icons.icRemoveItem,
-                        width: 16, height: 16, fit: BoxFit.fill),
+                    child: InkWell(
+                      onTap: () async {
+                        await context.read<ChatRoomBloc>().removeImageCache(index);
+                      },
+                      child: SvgPicture.asset(Assets.icons.icRemoveItem,
+                          width: 16, height: 16, fit: BoxFit.fill),
+                    ),
                   ),
                 ],
               ),

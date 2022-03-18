@@ -22,7 +22,10 @@ class MessageModelDto implements MessageModel {
   @override
   String? type;
 
-  MessageModelDto(this.id_room, this.content, this.keyUser, this.time, this.type);
+  @override
+  List<String>? images;
+
+  MessageModelDto(this.id_room, this.content, this.keyUser, this.time, this.type, this.images);
 
   factory MessageModelDto.fromJson(Map<String, dynamic> json) {
     return _$MessageModelDtoFromJson(json);

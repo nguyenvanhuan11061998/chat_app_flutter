@@ -1,5 +1,6 @@
 
 
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:chat_app_flutter/data/data_source/local_service.dart';
@@ -58,11 +59,11 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
     });
   }
 
-  Future<bool?> sendMessage(String message) async {
+  Future<bool?> sendMessage(String message, List<String> listImage) async {
     try {
       MessageModelDto messageModel = MessageModelDto(
-          idRoom, message, keyUser, DateTime.now(), 'text');
-      await _repositoryImp.sendMessage(idRoom, messageModel);
+          idRoom, message, keyUser, DateTime.now(), 'text', []);
+      await _repositoryImp.sendMessage(idRoom, messageModel, listImage);
       return true;
     } catch (e) {
       rethrow;
@@ -74,9 +75,9 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
   }
 
   /// ===========================================================================
-  Stream<List<String>> imagesSelectedCache() async* {
-    yield listImageSelectCache;
-  }
+
+  StreamController listImageSelectCacheController = StreamController<List<String>>();
+  Stream get listImageSelectCacheStream => listImageSelectCacheController.stream;
 
   Future addImage(List<String> images) async {
     for (var element in images) {
@@ -84,8 +85,12 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
         listImageSelectCache.add(element);
       }
     }
+    listImageSelectCacheController.sink.add(listImageSelectCache);
   }
 
-
+  Future removeImageCache(int index) async {
+    listImageSelectCache.removeAt(index);
+    listImageSelectCacheController.sink.add(listImageSelectCache);
+  }
 
 }

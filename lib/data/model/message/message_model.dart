@@ -8,4 +8,5 @@ abstract class MessageModel {
   DateTime? time;
   String? type;
   String? content;
+  List<String>? images;
 }

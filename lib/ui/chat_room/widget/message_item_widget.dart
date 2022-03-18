@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_flutter/data/model/user/user_model.dart';
+import 'package:chat_app_flutter/ui/chat_room/widget/image_message_chat.dart';
 import 'package:chat_app_flutter/utils/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,6 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.dataMessage.type == 'text') {
       if (widget.isCurrentUser) {
         return Column(
           children: [
@@ -35,31 +35,38 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
               const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  SizedBox(width: MediaQuery.of(context).size.width / 4),
-                  Flexible(
-                    child: Container(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                      decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
-                          color: ColorConstants.primaryColor),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            '${widget.dataMessage.content}',
-                            style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w400, color: Colors.white, fontSize: 16)
+                  if ((widget.dataMessage.images??[]).isNotEmpty)
+                    ImageMessageChat(listImage: widget.dataMessage.images!),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(width: MediaQuery.of(context).size.width / 4),
+                      Flexible(
+                        child: Container(
+                          padding:
+                              const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                              color: ColorConstants.primaryColor),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                '${widget.dataMessage.content}',
+                                style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w400, color: Colors.white, fontSize: 16)
+                              ),
+                              const SizedBox(height: 5),
+                              const Text('20:20', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w200),
+                              textAlign: TextAlign.end,),
+                            ],
                           ),
-                          const SizedBox(height: 5),
-                          const Text('20:20', style: TextStyle(color: Colors.white, fontSize: 12),
-                          textAlign: TextAlign.end,),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -100,7 +107,7 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                             color: ColorConstants.textColor, fontWeight: FontWeight.w400, fontSize: 16),
                       ),
                       const SizedBox(height: 5),
-                      const Text('20:20', style: TextStyle(color: Color(0xffA1A1BC), fontSize: 12)),
+                      const Text('20:20', style: TextStyle(color: Color(0xffA1A1BC), fontSize: 12, fontWeight: FontWeight.w200)),
                     ],
                   )
                 ),
@@ -110,8 +117,5 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
           ),
         );
       }
-    } else {
-      return Container();
-    }
   }
 }
