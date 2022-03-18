@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app_flutter/data/model/user/user_model.dart';
 import 'package:chat_app_flutter/ui/chat_room/widget/image_message_chat.dart';
 import 'package:chat_app_flutter/utils/app_constants.dart';
+import 'package:chat_app_flutter/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,37 +39,54 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                    child: Text(
+                      Utils.toStringTime(widget.dataMessage.time),
+                      style: TextStyle(
+                          color: Color(0xffA1A1BC),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w200),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
                   if ((widget.dataMessage.images??[]).isNotEmpty)
                     ImageMessageChat(listImage: widget.dataMessage.images!),
-                  Row(
+                  if ((widget.dataMessage.content ?? '').isNotEmpty)
+                    Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SizedBox(width: MediaQuery.of(context).size.width / 4),
                       Flexible(
                         child: Container(
-                          padding:
-                              const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 16),
                           decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(10.0)),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                  bottomLeft: Radius.circular(10.0)),
                               color: ColorConstants.primaryColor),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(
-                                '${widget.dataMessage.content}',
-                                style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w400, color: Colors.white, fontSize: 16)
-                              ),
+                              Text('${widget.dataMessage.content}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyText2!
+                                      .copyWith(
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white,
+                                          fontSize: 16)),
                               const SizedBox(height: 5),
-                              const Text('20:20', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w200),
-                              textAlign: TextAlign.end,),
                             ],
                           ),
                         ),
                       ),
                     ],
                   ),
-                ],
+              ],
               ),
             ),
           ],
@@ -76,44 +94,65 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
       } else {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: CachedNetworkImage(
-                  imageUrl: widget.user!.avatar ?? '',
-                  height: 30,
-                  width: 30,
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
-                ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+                child: Text(Utils.toStringTime(widget.dataMessage.time),
+                    style: TextStyle(
+                        color: Color(0xffA1A1BC),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w200)),
               ),
-              const SizedBox(width: 10),
-              Flexible(
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                  decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomRight: Radius.circular(10.0)),
-                      color: ColorConstants.grayColor),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${widget.dataMessage.content}',
-                        style: const TextStyle(
-                            height: 1.4,
-                            color: ColorConstants.textColor, fontWeight: FontWeight.w400, fontSize: 16),
-                      ),
-                      const SizedBox(height: 5),
-                      const Text('20:20', style: TextStyle(color: Color(0xffA1A1BC), fontSize: 12, fontWeight: FontWeight.w200)),
-                    ],
-                  )
-                ),
+              if ((widget.dataMessage.images??[]).isNotEmpty)
+                Padding(
+                    padding: const EdgeInsets.only(left: 40),
+                    child: ImageMessageChat(listImage: widget.dataMessage.images!)),
+              if ((widget.dataMessage.content ?? '').isNotEmpty)
+                Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.user!.avatar ?? '',
+                      height: 30,
+                      width: 30,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Flexible(
+                    child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 16),
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0)),
+                            color: ColorConstants.grayColor),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${widget.dataMessage.content}',
+                              style: const TextStyle(
+                                  height: 1.4,
+                                  color: ColorConstants.textColor,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16),
+                            ),
+                            const SizedBox(height: 5),
+                          ],
+                        )),
+                  ),
+                  SizedBox(width: MediaQuery.of(context).size.width / 4),
+                ],
               ),
-              SizedBox(width: MediaQuery.of(context).size.width / 4),
-            ],
+          ],
           ),
         );
       }

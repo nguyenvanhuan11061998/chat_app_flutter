@@ -237,14 +237,14 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                   const SizedBox(width: 10),
                                   InkWell(
                                     onTap: () {
-                                      if (messageController.text.trim().isNotEmpty && _roomBloc.listImageSelectCache.isNotEmpty) {
+                                      if (messageController.text.trim().isNotEmpty || _roomBloc.listImageSelectCache.isNotEmpty) {
                                         _roomBloc
                                             .sendMessage(
                                                 messageController.text.trim(), _roomBloc.listImageSelectCache)
                                             .then((value) {
                                           if (value != null && value) {
                                             setState(() {
-                                              _roomBloc.listImageSelectCache = [];
+                                              _roomBloc.removeAllImageCache();
                                               messageController.clear();
                                               FocusScope.of(context).unfocus();
                                               scrollListData();

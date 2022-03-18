@@ -93,4 +93,9 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
     listImageSelectCacheController.sink.add(listImageSelectCache);
   }
 
+  Future removeAllImageCache() async {
+    listImageSelectCache.clear();
+    listImageSelectCacheController.sink.add(listImageSelectCache);
+  }
+
 }
