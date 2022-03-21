@@ -10,6 +10,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../model/image_cache_model.dart';
 import '../../model/message/message_model_dto.dart';
 import 'chat_room_state.dart';
 
@@ -20,7 +21,7 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
   late final String idRoom;
   late final String keyUserId;
   final String keyUser = GetIt.I.get<LocalService>().getKeyUser();
-  late List<String> listImageSelectCache;
+  late List<ImageCacheModel> listImageSelectCache;
 
   ChatRoomBloc(this.idRoom, this.keyUserId) : super(const ChatRoomState.loading()) {
     initData();
@@ -76,12 +77,12 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
 
   /// ===========================================================================
 
-  StreamController listImageSelectCacheController = StreamController<List<String>>();
+  StreamController listImageSelectCacheController = StreamController<List<ImageCacheModel>>();
   Stream get listImageSelectCacheStream => listImageSelectCacheController.stream;
 
-  Future addImage(List<String> images) async {
+  Future addImage(List<ImageCacheModel?> images) async {
     for (var element in images) {
-      if (!listImageSelectCache.contains(element)) {
+      if (element != null && !listImageSelectCache.contains(element)) {
         listImageSelectCache.add(element);
       }
     }

@@ -2,6 +2,8 @@
 
 import 'dart:io';
 
+import 'package:chat_app_flutter/data/model/image_cache_model.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -56,7 +58,7 @@ class _AttackFileWidgetState extends State<AttackFileWidget> {
                     padding: const EdgeInsets.only(top: 16, right: 16, bottom: 16),
                     child: InkWell(
                       onTap: () async {
-                        List<String> listImage = await getImageGallery();
+                        List<ImageCacheModel?> listImage = await getImageGallery();
                         widget.onSelectedImage(listImage);
                       },
                       child: SvgPicture.asset(Assets.icons.icOpenGallery,
@@ -85,13 +87,15 @@ class _AttackFileWidgetState extends State<AttackFileWidget> {
     );
   }
 
-  Future<List<String>> getImageGallery() async {
-    final picker = ImagePicker();
-    List<String> imageSelected = [];
-    List<XFile> pickedFile = (await picker.pickMultiImage()) as List<XFile>;
-    for (var element in pickedFile) {
-      File file = File(element.path);
-      imageSelected.add(file.path);
+  Future<List<ImageCacheModel?>> getImageGallery() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom
+      allowedExtensions: ['jpg', 'mp4', 'png'],
+      allowMultiple: true
+    );
+    List<ImageCacheModel?> imageSelected = [];
+    if (result != null) {
+      imageSelected = result.paths.map((e) => ImageCacheModel(path: e)).toList();
     }
     return imageSelected;
   }

@@ -79,6 +79,12 @@ dependencies:
   emoji_picker_flutter: ^1.1.2
   flutter_keyboard_visibility: ^5.2.0
 
+  file_picker: ^4.5.1
+
+  video_player: ^2.3.0
+
+  video_thumbnail: ^0.4.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

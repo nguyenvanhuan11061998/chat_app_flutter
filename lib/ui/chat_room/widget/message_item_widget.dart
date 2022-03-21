@@ -43,7 +43,7 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                     child: Text(
                       Utils.toStringTime(widget.dataMessage.time),
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color(0xffA1A1BC),
                           fontSize: 12,
                           fontWeight: FontWeight.w200),
@@ -98,9 +98,9 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
                 child: Text(Utils.toStringTime(widget.dataMessage.time),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color(0xffA1A1BC),
                         fontSize: 12,
                         fontWeight: FontWeight.w200)),

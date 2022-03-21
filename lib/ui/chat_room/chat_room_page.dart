@@ -18,6 +18,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../data/blocs/chat_room/chat_room_state.dart';
+import '../../data/model/image_cache_model.dart';
 import '../../data/model/message/message_model_dto.dart';
 import '../../utils/app_constants.dart';
 
@@ -189,7 +190,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  AttackFileWidget(key: ValueKey(DateTime.now()), onSelectedImage: (List<String> value) async {
+                                  AttackFileWidget(key: ValueKey(DateTime.now()), onSelectedImage: (List<ImageCacheModel?> value) async {
                                     if (value.isNotEmpty) {
                                       await _roomBloc.addImage(value);
                                     }
@@ -240,7 +241,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                       if (messageController.text.trim().isNotEmpty || _roomBloc.listImageSelectCache.isNotEmpty) {
                                         _roomBloc
                                             .sendMessage(
-                                                messageController.text.trim(), _roomBloc.listImageSelectCache)
+                                                messageController.text.trim(), _roomBloc.listImageSelectCache.map((e) => e.path ?? '').toList())
                                             .then((value) {
                                           if (value != null && value) {
                                             setState(() {
