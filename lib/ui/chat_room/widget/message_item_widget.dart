@@ -7,14 +7,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/model/message/message_model_dto.dart';
+import '../detail_media_chat_page.dart';
 
 class MessageItemWidget extends StatefulWidget {
+  String idMessage;
   MessageModelDto dataMessage;
   UserModel? user;
   bool changeUser;
   bool isCurrentUser;
 
-  MessageItemWidget({Key? key, required this.dataMessage, required this.user, required this.changeUser, required this.isCurrentUser})
+  Function showDialogOptionMess;
+
+  MessageItemWidget({Key? key,
+    required this.idMessage,
+    required this.dataMessage,
+    required this.user,
+    required this.changeUser,
+    required this.isCurrentUser,
+    required this.showDialogOptionMess})
       : super(key: key);
 
   @override
@@ -22,38 +32,48 @@ class MessageItemWidget extends StatefulWidget {
 }
 
 class _MessageItemWidgetState extends State<MessageItemWidget> {
+  late bool showFullTime;
+
   @override
   void initState() {
     super.initState();
+    showFullTime = false;
   }
 
   @override
   Widget build(BuildContext context) {
-      if (widget.isCurrentUser) {
-        return Column(
-          children: [
-            if (widget.changeUser)
-              const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-                    child: Text(
-                      Utils.toStringTime(widget.dataMessage.time),
-                      style: const TextStyle(
-                          color: Color(0xffA1A1BC),
-                          fontSize: 12,
-                          fontWeight: FontWeight.w200),
-                      textAlign: TextAlign.end,
-                    ),
+    if (widget.isCurrentUser) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          if (widget.changeUser) const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+                  child: Text(
+                    Utils.toStringTime(widget.dataMessage.time),
+                    style: const TextStyle(
+                        color: Color(0xffA1A1BC),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w200),
+                    textAlign: TextAlign.end,
                   ),
-                  if ((widget.dataMessage.images??[]).isNotEmpty)
-                    ImageMessageChat(listImage: widget.dataMessage.images!),
-                  if ((widget.dataMessage.content ?? '').isNotEmpty)
-                    Row(
+                ),
+                if ((widget.dataMessage.images ?? []).isNotEmpty)
+                  InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, DetailMediaChatPage.path,
+                            arguments: widget.dataMessage.images!);
+                      },
+                      child: ImageMessageChat(
+                          listImage: widget.dataMessage.images!)),
+                if ((widget.dataMessage.content ?? '').isNotEmpty)
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SizedBox(width: MediaQuery.of(context).size.width / 4),
@@ -87,30 +107,51 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                     ],
                   ),
               ],
-              ),
             ),
-          ],
-        );
-      } else {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          ),
+        ],
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (widget.changeUser) const SizedBox(height: 5),
+            showFullTime
+                ? Container(
+                    padding: const EdgeInsets.only(bottom: 5, top: 16),
+                    width: double.infinity,
+                    child: Text(
+                      Utils.toStringFullTime(widget.dataMessage.time),
+                      style: const TextStyle(
+                          color: Color(0xffA1A1BC),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w200),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                : Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+                    child: Text(Utils.toStringTime(widget.dataMessage.time),
+                        style: const TextStyle(
+                            color: Color(0xffA1A1BC),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w200)),
+                  ),
+            if ((widget.dataMessage.images ?? []).isNotEmpty)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-                child: Text(Utils.toStringTime(widget.dataMessage.time),
-                    style: const TextStyle(
-                        color: Color(0xffA1A1BC),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w200)),
-              ),
-              if ((widget.dataMessage.images??[]).isNotEmpty)
-                Padding(
-                    padding: const EdgeInsets.only(left: 40),
-                    child: ImageMessageChat(listImage: widget.dataMessage.images!)),
-              if ((widget.dataMessage.content ?? '').isNotEmpty)
-                Row(
+                  padding: const EdgeInsets.only(left: 40),
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, DetailMediaChatPage.path,
+                            arguments: widget.dataMessage.images!);
+                      },
+                      child: ImageMessageChat(
+                          listImage: widget.dataMessage.images!))),
+            if ((widget.dataMessage.content ?? '').isNotEmpty)
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   ClipRRect(
@@ -124,37 +165,47 @@ class _MessageItemWidgetState extends State<MessageItemWidget> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  Flexible(
-                    child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 16),
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                topRight: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0)),
-                            color: ColorConstants.grayColor),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${widget.dataMessage.content}',
-                              style: const TextStyle(
-                                  height: 1.4,
-                                  color: ColorConstants.textColor,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16),
-                            ),
-                            const SizedBox(height: 5),
-                          ],
-                        )),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        showFullTime = !showFullTime;
+                      });
+                    },
+                    onLongPress: () {
+                      widget.showDialogOptionMess(widget.idMessage);
+                    },
+                    child: Flexible(
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 16),
+                          decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                  bottomRight: Radius.circular(10.0)),
+                              color: ColorConstants.grayColor),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${widget.dataMessage.content}',
+                                style: const TextStyle(
+                                    height: 1.4,
+                                    color: ColorConstants.textColor,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16),
+                              ),
+                              const SizedBox(height: 5),
+                            ],
+                          )),
+                    ),
                   ),
                   SizedBox(width: MediaQuery.of(context).size.width / 4),
                 ],
               ),
           ],
-          ),
-        );
-      }
+        ),
+      );
+    }
   }
 }

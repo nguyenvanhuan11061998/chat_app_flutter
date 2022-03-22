@@ -47,7 +47,7 @@ class ControlsOverlay extends StatelessWidget {
               child: Icon(
                 Icons.play_arrow,
                 color: Colors.white,
-                size: 100.0,
+                size: 30.0,
                 semanticLabel: 'Play',
               ),
             ),

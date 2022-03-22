@@ -85,6 +85,8 @@ dependencies:
 
   video_thumbnail: ^0.4.6
 
+  carousel_slider: ^4.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

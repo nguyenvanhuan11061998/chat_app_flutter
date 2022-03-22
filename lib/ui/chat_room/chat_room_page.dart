@@ -160,10 +160,15 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                   (keyUserCurrent != message.keyUser);
                               keyUserCurrent = message.keyUser ?? '';
                               return MessageItemWidget(
-                                  dataMessage: message,
-                                  user: mapUser[message.keyUser],
-                                  changeUser: changeUser,
-                                  isCurrentUser: message.keyUser == keyUserId);
+                                idMessage: snapshot.key ?? '',
+                                dataMessage: message,
+                                user: mapUser[message.keyUser],
+                                changeUser: changeUser,
+                                isCurrentUser: message.keyUser == keyUserId,
+                                showDialogOptionMess: (idMess) {
+
+                                },
+                              );
                             }),
                       ),
                       const SizedBox(height: 5),
@@ -173,6 +178,18 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                           color: Colors.white,
                           child: Column(
                             children: [
+                              StreamBuilder(
+                                  stream: _roomBloc.dialogOptionMessStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Container(
+                                        height: 50,
+                                        color: Colors.blue,
+                                      );
+                                    } else {
+                                      return Container();
+                                    }
+                                  }),
                               StreamBuilder(
                                 stream: _roomBloc.listImageSelectCacheStream,
                                 builder: (BuildContext context,

@@ -27,7 +27,7 @@ class _ImageMessageChatState extends State<ImageMessageChat> {
                       borderRadius: BorderRadius.circular(10),
                       child: SizedBox(
                           width: MediaQuery.of(context).size.width / 1.8,
-                          height: MediaQuery.of(context).size.height / 1.8,
+                          height: MediaQuery.of(context).size.height / 3,
                           child:
                               VideoMessageWidget(url: widget.listImage.first)))
                   : ClipRRect(

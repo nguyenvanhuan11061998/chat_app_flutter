@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../utils/navigator_support.dart';
 import '../auth/change_password_page.dart';
 import '../chat_room/chat_room_page.dart';
+import '../chat_room/detail_media_chat_page.dart';
 import '../setting/setting_page.dart';
 
 class MainNavigator extends StatefulWidget {
@@ -52,6 +53,8 @@ class _MainNavigatorState extends State<MainNavigator> {
               return MaterialPageRoute(builder: (context) => const SettingPage());
             case ChangePasswordPage.path:
               return MaterialPageRoute(builder: (context) => const ChangePasswordPage());
+            case DetailMediaChatPage.path:
+              return MaterialPageRoute(builder: (context) => DetailMediaChatPage(listMedia: setting.arguments as List<String>));
           }
         },
       ),

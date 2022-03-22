@@ -99,4 +99,11 @@ class ChatRoomBloc extends Cubit<ChatRoomState> {
     listImageSelectCacheController.sink.add(listImageSelectCache);
   }
 
+  ///===========================================================================
+
+  StreamController dialogOptionMessController = StreamController<String>();
+  Stream get dialogOptionMessStream => dialogOptionMessController.stream;
+
+
+
 }
