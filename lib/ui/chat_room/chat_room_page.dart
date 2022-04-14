@@ -317,6 +317,7 @@ class _ChatRoomPageState extends State<ChatRoomPage> {
                                   buttonMode: ButtonMode.MATERIAL)),
                         ) : Container(),
                       ),
+                      Container()
                     ],
                   ),
                 ),
